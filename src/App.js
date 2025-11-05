@@ -24,6 +24,17 @@ export default function StrudelDemo() {
 
     const hasRun = useRef(false);
 
+    const handleProc = () => {
+        // add controls processing when controls complete
+
+    }
+
+    const handleProcAndPlay = () => {
+        // add controls processing when controls complete
+
+        globalEditor.evaluate()
+    }
+
     const handlePlay = () => {
         globalEditor.evaluate()
     }
@@ -85,7 +96,7 @@ export default function StrudelDemo() {
                             <TextProcessing defaultValue={songText} onChange={(e) => setSongText(e.target.value)} />
                         </div>
                         <div className="col-md-4">
-                            <ProcButtons />
+                            <ProcButtons onProc={handleProc} onProcAndPlay={handleProcAndPlay} />
                             <PlayButtons onPlay={handlePlay} onStop={handleStop} />
                         </div>
                     </div>
