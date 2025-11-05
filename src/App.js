@@ -13,6 +13,7 @@ import TextProcessing from './components/TextProcessing';
 import PlayButtons from './components/PlayButtons';
 import ProcButtons from './components/ProcButtons';
 import Controls from './components/Controls';
+import D3Graph from './components/D3Graph';
 
 let globalEditor = null;
 
@@ -24,23 +25,46 @@ export default function StrudelDemo() {
 
     const hasRun = useRef(false);
 
+    // for D3 graph, set default state
+    const [musicInput, setMusicInput] = useState("");
+
+    // handle Preprocess button
     const handleProc = () => {
         // add controls processing when controls complete
 
     }
 
+    // handle ProcAndPlay button
     const handleProcAndPlay = () => {
         // add controls processing when controls complete
 
         globalEditor.evaluate()
     }
 
+    // handle Play button
     const handlePlay = () => {
         globalEditor.evaluate()
+
     }
 
+    // handle Stop button
     const handleStop = () => {
         globalEditor.stop()
+    }
+
+    // uses the event listener already in place
+    const handleD3Data = () => {
+
+        // get the latest entry to the array of music data only
+        const latestIndex = getD3Data().length;
+        const latest = getD3Data()[latestIndex - 1];
+
+        handleInput(latest);
+    }
+
+    // pass down music input as a prop to D3Graph
+    const handleInput = (input) => {
+        setMusicInput(input);
     }
 
     const [songText, setSongText] = useState(stranger_tune)
@@ -110,6 +134,7 @@ export default function StrudelDemo() {
                         </div>
                     </div>
                 </div>
+                <D3Graph input={musicInput} />
                 <canvas id="roll"></canvas>
             </main >
         </div >
