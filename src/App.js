@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // for accordion
 import { useEffect, useRef, useState } from "react";
 import { StrudelMirror } from '@strudel/codemirror';
 import { evalScope } from '@strudel/core';
@@ -14,6 +15,7 @@ import PlayButtons from './components/PlayButtons';
 import ProcButtons from './components/ProcButtons';
 import Controls from './components/Controls';
 import D3Graph from './components/D3Graph';
+import DarkModeSwitch from './components/DarkModeSwitch';
 
 let globalEditor = null;
 
@@ -25,8 +27,12 @@ export default function StrudelDemo() {
 
     const hasRun = useRef(false);
 
+    // for song selection
+    const [songText, setSongText] = useState(stranger_tune)
+
     // for D3 graph, set default state
     const [musicInput, setMusicInput] = useState("");
+
 
     // handle Preprocess button
     const handleProc = () => {
@@ -38,7 +44,7 @@ export default function StrudelDemo() {
     const handleProcAndPlay = () => {
         // add controls processing when controls complete
 
-        globalEditor.evaluate()
+        handlePlay();
     }
 
     // handle Play button
@@ -67,7 +73,6 @@ export default function StrudelDemo() {
         setMusicInput(input);
     }
 
-    const [songText, setSongText] = useState(stranger_tune)
 
     useEffect(() => {
         if (!hasRun.current) {
@@ -101,7 +106,6 @@ export default function StrudelDemo() {
                 },
             });
 
-            document.getElementById('proc').value = stranger_tune
             console.log(getD3Data());
 
         }
@@ -110,8 +114,8 @@ export default function StrudelDemo() {
 
 
     return (
-        <div>
-            <h2>Strudel Demo</h2>
+        <div className="m-4">
+            <h1 className="ms-2 mb-4"> ~&#9835;~&#9834;~ Strudel Demo ~&#9834;~&#9835;~</h1>
             <main>
 
                 <div className="container-fluid">
@@ -119,9 +123,16 @@ export default function StrudelDemo() {
                         <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
                             <TextProcessing defaultValue={songText} onChange={(e) => setSongText(e.target.value)} />
                         </div>
-                        <div className="col-md-4">
-                            <ProcButtons onProc={handleProc} onProcAndPlay={handleProcAndPlay} />
-                            <PlayButtons onPlay={handlePlay} onStop={handleStop} />
+                        <div className="col">
+                            <div>
+                                <DarkModeSwitch />
+                            </div>
+                            <div>
+                                <ProcButtons onProc={handleProc} onProcAndPlay={handleProcAndPlay} />
+                            </div>
+                            <div>
+                                <PlayButtons onPlay={handlePlay} onStop={handleStop} />
+                            </div>
                         </div>
                     </div>
                     <div className="row">
