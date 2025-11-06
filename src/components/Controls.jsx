@@ -6,11 +6,13 @@ export function Controls() {
         <div className="m-2">
             <div className="mb-4 fs-5">
                 <label htmlFor="master-volume" className="form-label text-center">Master Volume</label>
-                <input type="range" className="form-range" min="0" max="1" step="0.05" id="master-volume"/>
+                <input type="range" className="form-range secondary" min="0" max="1" step="0.05" id="master-volume"/>
             </div>
-            <div className="mb-4 fs-5">
-                <label htmlFor="cpm" className="form-label text-center">Speed (CPM)</label>
-                <input type="range" className="form-range" min="0" max="1" step="0.1" id="cpm" />
+
+            <div className="input-group mb-4">
+                <span className="input-group-text" id="basic-addon1">CPM/Speed:</span>
+                <input type="text" className="form-control" placeholder="Cycles per minute" aria-label="Set-CPS" aria-describedby="basic-addon1" />
+                <button className="btn btn-primary" type="button" >Set</button>
             </div>
 
 

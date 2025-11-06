@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-
+// toggle dark mode with a bootstrap switch
+// implements document-wide dark grey background and white text (css)
 function DarkModeSwitch() {
 
-    // for dark mode, default white bg
     const [darkMode, setDarkMode] = useState(false);
 
     const changeColour = () => {
@@ -15,7 +15,6 @@ function DarkModeSwitch() {
         }
     }
 
-    // useEffect - implement switching here, css?
     useEffect(() => {
         document.body.classList.toggle("dark-mode", darkMode);
     }, [darkMode]);
@@ -26,7 +25,6 @@ function DarkModeSwitch() {
             <label className="form-check-label" htmlFor="darkmode-switch">Dark Mode</label>
             <input className="form-check-input" type="checkbox" id="darkmode-switch" defaultChecked={darkMode} onClick={changeColour} />
         </div>
-
     );
 }
 

@@ -12,45 +12,26 @@ import { stranger_tune } from './tunes';
 import console_monkey_patch, { getD3Data } from './console-monkey-patch';
 import TextProcessing from './components/TextProcessing';
 import PlayButtons from './components/PlayButtons';
-import ProcButtons from './components/ProcButtons';
 import Controls from './components/Controls';
 import D3Graph from './components/D3Graph';
 import DarkModeSwitch from './components/DarkModeSwitch';
+import SaveLoadJson from './components/SaveLoadJson';
+import SongSelection from './components/SongSelection';
 
 let globalEditor = null;
 
-const handleD3Data = (event) => {
-    console.log(event.detail);
-};
+//const handleD3Data = (event) => {
+//    console.log(event.detail);
+//};
 
 export default function StrudelDemo() {
 
     const hasRun = useRef(false);
 
-    // for song selection
-    const [songText, setSongText] = useState(stranger_tune)
-
-    // for D3 graph, set default state
-    const [musicInput, setMusicInput] = useState("");
-
-
-    // handle Preprocess button
-    const handleProc = () => {
-        // add controls processing when controls complete
-
-    }
-
-    // handle ProcAndPlay button
-    const handleProcAndPlay = () => {
-        // add controls processing when controls complete
-
-        handlePlay();
-    }
-
     // handle Play button
     const handlePlay = () => {
+        //let outputText = Preprocess({ inputText: procText, volume: volume });
         globalEditor.evaluate()
-
     }
 
     // handle Stop button
@@ -58,19 +39,28 @@ export default function StrudelDemo() {
         globalEditor.stop()
     }
 
-    // uses the event listener already in place
+
+    // for D3 graph, set default state
+    const [musicInput, setMusicInput] = useState("");
+
+    // uses the event listener already in place, gets data from .log()
     const handleD3Data = () => {
 
         // get the latest entry to the array of music data only
         const latestIndex = getD3Data().length;
         const latest = getD3Data()[latestIndex - 1];
 
-        handleInput(latest);
+        // pass down music input as a prop to D3Graph
+        setMusicInput(latest);
     }
 
-    // pass down music input as a prop to D3Graph
-    const handleInput = (input) => {
-        setMusicInput(input);
+
+    // for song selection, using imported song variables
+    // updates both preprocessing textarea and editor area
+    const [songText, setSongText] = useState("") // default
+
+    const handleSelect = (song) => {
+        setSongText(song);
     }
 
 
@@ -108,6 +98,8 @@ export default function StrudelDemo() {
 
             console.log(getD3Data());
 
+            // set a default song on load
+            setSongText(stranger_tune);
         }
         globalEditor.setCode(songText);
     }, [songText]);
@@ -128,10 +120,9 @@ export default function StrudelDemo() {
                                 <DarkModeSwitch />
                             </div>
                             <div>
-                                <ProcButtons onProc={handleProc} onProcAndPlay={handleProcAndPlay} />
-                            </div>
-                            <div>
                                 <PlayButtons onPlay={handlePlay} onStop={handleStop} />
+                                <SongSelection onSelect={handleSelect} />
+                                <SaveLoadJson />
                             </div>
                         </div>
                     </div>
