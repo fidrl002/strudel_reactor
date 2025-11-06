@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\components\\d3graph.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\components\\d3graph.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\tunes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\tunes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\console-monkey-patch.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\console-monkey-patch.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\components\\controls.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\components\\controls.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,22 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 218,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "index.js",
-              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\index.js",
-              "RelativeDocumentMoniker": "src\\index.js",
-              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\index.js",
-              "RelativeToolTip": "src\\index.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-10-31T04:07:54.005Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -50,7 +32,7 @@
               "RelativeDocumentMoniker": "src\\App.js",
               "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\App.js",
               "RelativeToolTip": "src\\App.js",
-              "ViewState": "AgIAABgAAAAAAAAAAAAowD0AAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-10-31T04:03:42.275Z",
               "IsPinned": true,
@@ -59,33 +41,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "D3Graph.jsx",
-              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\D3Graph.jsx",
-              "RelativeDocumentMoniker": "src\\components\\D3Graph.jsx",
-              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\D3Graph.jsx",
-              "RelativeToolTip": "src\\components\\D3Graph.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-11-05T01:14:11.803Z",
+              "Title": "tunes.js",
+              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\tunes.js",
+              "RelativeDocumentMoniker": "src\\tunes.js",
+              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\tunes.js",
+              "RelativeToolTip": "src\\tunes.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-06T11:12:26.151Z",
               "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 182,
-          "SelectedChildIndex": 0,
-          "Children": [
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "console-monkey-patch.js",
-              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\console-monkey-patch.js",
-              "RelativeDocumentMoniker": "src\\console-monkey-patch.js",
-              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\console-monkey-patch.js",
-              "RelativeToolTip": "src\\console-monkey-patch.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-11-05T04:36:41.847Z",
+              "Title": "Controls.jsx",
+              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\Controls.jsx",
+              "RelativeDocumentMoniker": "src\\components\\Controls.jsx",
+              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\Controls.jsx",
+              "RelativeToolTip": "src\\components\\Controls.jsx",
+              "ViewState": "AgIAABsAAAAAAAAAAADwvzIAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-11-06T11:02:51.644Z",
               "EditorCaption": ""
             }
           ]

@@ -74,19 +74,19 @@ function D3Graph({ input }) {
             .attr("y", d => yScale(d))
             .attr("width", barWidth - barMargin)
             .attr("height", d => { return h - yScale(d) })
-            .style("fill", "steelblue");
+            .style("fill", "cyan");
 
     }, [inputArray]);
 
 
     return (
-        <div className="App container">
+        <div className="App container mt-3">
             <h2>
-                Gain Output Graph
+                Gain Output
             </h2>
-            <p>values: {inputArray}</p>
+            {/*<p>values: {inputArray}</p>*/}
             <div className="row">
-                <svg width="100%" height="600px" className="border border-primary rounded p-2"></svg>
+                <svg width="100%" height="300px" className="border border-primary rounded p-2"></svg>
             </div>
         </div>
     )

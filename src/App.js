@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // for accordion
 import { useEffect, useRef, useState } from "react";
 import { StrudelMirror } from '@strudel/codemirror';
 import { evalScope } from '@strudel/core';
@@ -11,40 +12,28 @@ import { stranger_tune } from './tunes';
 import console_monkey_patch, { getD3Data } from './console-monkey-patch';
 import TextProcessing from './components/TextProcessing';
 import PlayButtons from './components/PlayButtons';
-import ProcButtons from './components/ProcButtons';
 import Controls from './components/Controls';
 import D3Graph from './components/D3Graph';
+import DarkModeSwitch from './components/DarkModeSwitch';
+import { Preprocess } from './utils/PreprocessLogic';
+import SaveLoadJson from './components/SaveLoadJson';
+import SongSelection from './components/SongSelection';
 
 let globalEditor = null;
 
-const handleD3Data = (event) => {
-    console.log(event.detail);
-};
+//const handleD3Data = (event) => {
+//    console.log(event.detail);
+//};
 
 export default function StrudelDemo() {
 
     const hasRun = useRef(false);
 
-    // for D3 graph, set default state
-    const [musicInput, setMusicInput] = useState("");
-
-    // handle Preprocess button
-    const handleProc = () => {
-        // add controls processing when controls complete
-
-    }
-
-    // handle ProcAndPlay button
-    const handleProcAndPlay = () => {
-        // add controls processing when controls complete
-
-        globalEditor.evaluate()
-    }
-
     // handle Play button
     const handlePlay = () => {
+        let outputText = Preprocess({ inputText: songText, volume: volume });
+        globalEditor.setCode(outputText);
         globalEditor.evaluate()
-
     }
 
     // handle Stop button
@@ -52,22 +41,43 @@ export default function StrudelDemo() {
         globalEditor.stop()
     }
 
-    // uses the event listener already in place
+
+    // for D3 graph, set default state
+    const [musicInput, setMusicInput] = useState("");
+
+    // uses the event listener already in place, gets data from .log()
     const handleD3Data = () => {
 
         // get the latest entry to the array of music data only
         const latestIndex = getD3Data().length;
         const latest = getD3Data()[latestIndex - 1];
 
-        handleInput(latest);
+        // pass down music input as a prop to D3Graph
+        setMusicInput(latest);
     }
 
-    // pass down music input as a prop to D3Graph
-    const handleInput = (input) => {
-        setMusicInput(input);
+
+    // for song selection, using imported song variables
+    // updates both preprocessing textarea and editor area)
+    const [songText, setSongText] = useState("") // default
+
+    const handleSelect = (song) => {
+        setSongText(song);
     }
 
-    const [songText, setSongText] = useState(stranger_tune)
+    // volume slider state
+    const [volume, setVolume] = useState(1);
+
+    // play state
+    const [state, setState] = useState("stop");
+
+    // when volume slider updated
+    useEffect(() => {
+        if (state === "play") {
+            handlePlay();
+        }
+    }, [volume])
+
 
     useEffect(() => {
         if (!hasRun.current) {
@@ -101,17 +111,18 @@ export default function StrudelDemo() {
                 },
             });
 
-            document.getElementById('proc').value = stranger_tune
             console.log(getD3Data());
 
+            // set a default song on load
+            setSongText(stranger_tune);
         }
         globalEditor.setCode(songText);
     }, [songText]);
 
 
     return (
-        <div>
-            <h2>Strudel Demo</h2>
+        <div className="m-4">
+            <h1 className="ms-2 mb-4"> ~&#9835;~&#9834;~ Strudel Demo ~&#9834;~&#9835;~</h1>
             <main>
 
                 <div className="container-fluid">
@@ -119,9 +130,15 @@ export default function StrudelDemo() {
                         <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
                             <TextProcessing defaultValue={songText} onChange={(e) => setSongText(e.target.value)} />
                         </div>
-                        <div className="col-md-4">
-                            <ProcButtons onProc={handleProc} onProcAndPlay={handleProcAndPlay} />
-                            <PlayButtons onPlay={handlePlay} onStop={handleStop} />
+                        <div className="col">
+                            <div>
+                                <DarkModeSwitch />
+                            </div>
+                            <div>
+                                <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
+                                <SongSelection onSelect={handleSelect} />
+                                <SaveLoadJson />
+                            </div>
                         </div>
                     </div>
                     <div className="row">
@@ -130,7 +147,7 @@ export default function StrudelDemo() {
                             <div id="output" />
                         </div>
                         <div className="col-md-4">
-                            <Controls />
+                            <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} />
                         </div>
                     </div>
                 </div>

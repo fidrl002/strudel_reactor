@@ -46,6 +46,7 @@ note(pick(basslines, bass))
 .room(0.6)
 .lpf(700)
 .room(0.4)
+.gain(1)
 .postgain(pick(gain_patterns, pattern))
 
 
@@ -56,6 +57,7 @@ note(pick(arpeggiator1, "<0 1 2 3>/2"))
 .adsr("0:0:.5:.1")
 .room(0.6)
 .lpenv(3.3)
+.gain(1)
 .postgain(pick(gain_patterns, pattern))
 
 
@@ -65,6 +67,7 @@ stack(
   .postgain(6)
   .pcurve(2)
   .pdec(1)
+  .gain(1)
   .struct(pick(drum_structure, pattern)),
 
   s("sh").struct("[x!3 ~!2 x!10 ~]")
@@ -74,6 +77,7 @@ stack(
 
   s("{~ ~ rim ~ cp ~ rim cp ~!2 rim ~ cp ~ < rim ~ >!2}%8 *2")
   .bank("[KorgDDM110, OberheimDmx]").speed(1.2)
+  .gain(1)
   .postgain(.25),
 )
 
@@ -98,3 +102,66 @@ stack(
 // all(x => x.log())
 
 // @version 1.2`;
+
+
+
+
+export const felix_roos = `// licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
+// by Felix Roos, inspired by Friendship - Let's not talk about it (1979) :)
+
+samples({ bd: 'bd/BT0A0D0.wav', sn: 'sn/ST0T0S3.wav', hh: 'hh/000_hh3closedhh.wav', cp: 'cp/HANDCLP0.wav',
+}, 'https://loophole-letters.vercel.app/samples/tidal/')
+
+const h = x=>x.transpose("<0@2 5 0 7 5 0 -5>/2")
+
+tune:
+stack(
+  s("<<bd*2 bd> sn> hh").fast(2).gain(.7),
+  "[c2 a1 bb1 ~] ~"
+  .echo(2, 1/16, 1)
+  .legato(.4)
+  .slow(2)
+  .layer(h)
+  .note().s('square')
+  .cutoff(400).decay(.12).sustain(0)
+  .gain(1)
+  ,
+  "[g2,[c3 eb3]]".iter(4)
+  .echoWith(4, 1/8, (x,n)=>x.transpose(n*12).velocity(Math.pow(.4,n)))
+  .legato(.1)
+  .layer(h).note()
+  .gain(1)
+)
+  .fast(3/3)
+//end`
+
+
+
+// doesn't work no samples!! Can I get them somehow?
+export const koji_kondo = `
+// Koji Kondo - Princess Zelda's Rescue
+
+stack(
+  // melody
+  "[B3@2 D4][A3@2[G3 A3]][B3@2 D4][A3]
+[B3@2 D4][A4@2 G4][D4@2[C4 B3]][A3]
+[B3@2 D4][A3@2[G3 A3]][B3@2 D4][A3]
+[B3@2 D4][A4@2 G4] D5 @2
+[D5@2[C5 B4]][[C5 B4] G4@2][C5@2[B4 A4]][[B4 A4] E4@2]
+[D5@2[C5 B4]][[C5 B4] G4 C5][G5][~ ~B3]"
+  .color('#9C7C38'),
+  // bass
+  "[[C2 G2] E3 @2][[C2 G2] F#3@2][[C2 G2] E3 @2][[C2 G2] F#3@2]
+[[B1 D3] G3 @2][[Bb1 Db3] G3@2][[A1 C3] G3 @2][[D2 C3] F#3@2]
+[[C2 G2] E3 @2][[C2 G2] F#3@2][[C2 G2] E3 @2][[C2 G2] F#3@2]
+[[B1 D3] G3 @2][[Bb1 Db3] G3@2][[A1 C3] G3 @2][[D2 C3] F#3@2]
+[[F2 C3] E3 @2][[E2 B2] D3@2][[D2 A2] C3 @2][[C2 G2] B2@2]
+[[F2 C3] E3 @2][[E2 B2] D3@2][[Eb2 Bb2] Db3 @2][[D2 A2] C3[F3, G2]]"
+  .color('#4C4646')
+).transpose(12).slow(48)
+  .superimpose(x=>x.add(0.06)) // add slightly detuned voice
+  .note()
+  .gain(.1)
+  .s('triangle')
+  .room(1)
+  //.pianoroll({fold:1})`
