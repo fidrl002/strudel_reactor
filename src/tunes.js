@@ -46,6 +46,7 @@ note(pick(basslines, bass))
 .room(0.6)
 .lpf(700)
 .room(0.4)
+.gain(1)
 .postgain(pick(gain_patterns, pattern))
 
 
@@ -56,6 +57,7 @@ note(pick(arpeggiator1, "<0 1 2 3>/2"))
 .adsr("0:0:.5:.1")
 .room(0.6)
 .lpenv(3.3)
+.gain(1)
 .postgain(pick(gain_patterns, pattern))
 
 
@@ -65,6 +67,7 @@ stack(
   .postgain(6)
   .pcurve(2)
   .pdec(1)
+  .gain(1)
   .struct(pick(drum_structure, pattern)),
 
   s("sh").struct("[x!3 ~!2 x!10 ~]")
@@ -74,6 +77,7 @@ stack(
 
   s("{~ ~ rim ~ cp ~ rim cp ~!2 rim ~ cp ~ < rim ~ >!2}%8 *2")
   .bank("[KorgDDM110, OberheimDmx]").speed(1.2)
+  .gain(1)
   .postgain(.25),
 )
 
@@ -110,6 +114,7 @@ samples({ bd: 'bd/BT0A0D0.wav', sn: 'sn/ST0T0S3.wav', hh: 'hh/000_hh3closedhh.wa
 
 const h = x=>x.transpose("<0@2 5 0 7 5 0 -5>/2")
 
+tune:
 stack(
   s("<<bd*2 bd> sn> hh").fast(2).gain(.7),
   "[c2 a1 bb1 ~] ~"
@@ -119,13 +124,16 @@ stack(
   .layer(h)
   .note().s('square')
   .cutoff(400).decay(.12).sustain(0)
+  .gain(1)
   ,
   "[g2,[c3 eb3]]".iter(4)
   .echoWith(4, 1/8, (x,n)=>x.transpose(n*12).velocity(Math.pow(.4,n)))
   .legato(.1)
   .layer(h).note()
+  .gain(1)
 )
-  .fast(3/3)`
+  .fast(3/3)
+//end`
 
 
 

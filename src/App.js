@@ -15,6 +15,7 @@ import PlayButtons from './components/PlayButtons';
 import Controls from './components/Controls';
 import D3Graph from './components/D3Graph';
 import DarkModeSwitch from './components/DarkModeSwitch';
+import { Preprocess } from './utils/PreprocessLogic';
 import SaveLoadJson from './components/SaveLoadJson';
 import SongSelection from './components/SongSelection';
 
@@ -30,7 +31,8 @@ export default function StrudelDemo() {
 
     // handle Play button
     const handlePlay = () => {
-        //let outputText = Preprocess({ inputText: procText, volume: volume });
+        let outputText = Preprocess({ inputText: songText, volume: volume });
+        globalEditor.setCode(outputText);
         globalEditor.evaluate()
     }
 
@@ -56,12 +58,25 @@ export default function StrudelDemo() {
 
 
     // for song selection, using imported song variables
-    // updates both preprocessing textarea and editor area
+    // updates both preprocessing textarea and editor area)
     const [songText, setSongText] = useState("") // default
 
     const handleSelect = (song) => {
         setSongText(song);
     }
+
+    // volume slider state
+    const [volume, setVolume] = useState(1);
+
+    // play state
+    const [state, setState] = useState("stop");
+
+    // when volume slider updated
+    useEffect(() => {
+        if (state === "play") {
+            handlePlay();
+        }
+    }, [volume])
 
 
     useEffect(() => {
@@ -120,7 +135,7 @@ export default function StrudelDemo() {
                                 <DarkModeSwitch />
                             </div>
                             <div>
-                                <PlayButtons onPlay={handlePlay} onStop={handleStop} />
+                                <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
                                 <SongSelection onSelect={handleSelect} />
                                 <SaveLoadJson />
                             </div>
@@ -132,7 +147,7 @@ export default function StrudelDemo() {
                             <div id="output" />
                         </div>
                         <div className="col-md-4">
-                            <Controls />
+                            <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} />
                         </div>
                     </div>
                 </div>
