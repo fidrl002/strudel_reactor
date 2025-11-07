@@ -1,6 +1,11 @@
 
 export function Preprocess({ inputText, volume }) {
 
+    // stop errors with no text to process
+    if (inputText === "") {
+        inputText = "empty";
+    }
+
     let outputText = inputText;
 
     //outputText += `\n//all(x => x.gain(${volume}))`
