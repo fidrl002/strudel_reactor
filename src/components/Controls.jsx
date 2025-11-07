@@ -39,14 +39,28 @@ export function Controls({ onVolumeChange }) {
 
                             <p>Turn selected instrument groups on or off</p>
 
-                            <div className="form-check form-switch fs-3">
-                                <input className="form-check-input" type="checkbox" name="p1-switch" id="p1-switch" defaultChecked />
-                                <label className="form-check-label" htmlFor="p1-switch">p1</label>
-                            </div>
-                            <div className="form-check form-switch fs-3">
-                                <input className="form-check-input" type="checkbox" name="p2-switch" id="p2-switch" defaultChecked />
-                                <label className="form-check-label" htmlFor="p2-switch">p2</label>
-                            </div>
+                            {/*<div className="form-check form-switch fs-3">*/}
+                            {/*    <input className="form-check-input" type="checkbox" name="p1-switch" id="p1-switch" defaultChecked />*/}
+                            {/*    <label className="form-check-label" htmlFor="p1-switch">p1</label>*/}
+                            {/*</div>*/}
+                            {/*<div className="form-check form-switch fs-3">*/}
+                            {/*    <input className="form-check-input" type="checkbox" name="p2-switch" id="p2-switch" defaultChecked />*/}
+                            {/*    <label className="form-check-label" htmlFor="p2-switch">p2</label>*/}
+                            {/*</div>*/}
+
+                            <input type="checkbox" id="drums" name="drums" className="btn-check" />
+                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="drums">
+                                Drums
+                            </label>
+                            <input type="checkbox" id="bass" name="bass" className="btn-check" />
+                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="bass">
+                                Bass
+                            </label>
+                            <input type="checkbox" id="arp" name="arp" className="btn-check" />
+                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="arp">
+                                Arp
+                            </label>
+
                         </div>
                     </div>
                 </div>

@@ -32,7 +32,7 @@ function SongSelection({ onSelect }) {
                         <button className="dropdown-item" onClick={() => { onSelect(":-)"); setSelectedSong("none") }} >none - start fresh!</button>
                     </li>
                 </ul>
-                <p className="m-3">Song selected: {selectedSong ? selectedSong : "none"}</p>
+                {/*<p className="m-3">Song selected: {selectedSong ? selectedSong : "none"}</p>*/}
 
             </div>
         </div>

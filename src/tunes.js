@@ -37,7 +37,7 @@ const arpeggiator2 = [
 ]
 
 
-const pattern = 0
+const pattern = 2
 const bass = 0
 
 bassline:
@@ -48,7 +48,7 @@ note(pick(basslines, bass))
 .lpf(700)
 .room(0.4)
 .gain(1)
-.postgain(pick(gain_patterns, pattern))
+.postgain(pick(gain_patterns, pattern)).log()
 
 
 main_arp: 
@@ -124,7 +124,7 @@ stack(
   .layer(h)
   .note().s('square')
   .cutoff(400).decay(.12).sustain(0)
-  .gain(1)
+  .gain(.75)
   ,
   "[g2,[c3 eb3]]".iter(4)
   .echoWith(4, 1/8, (x,n)=>x.transpose(n*12).velocity(Math.pow(.4,n)))
@@ -132,7 +132,7 @@ stack(
   .layer(h).note()
   .gain(1)
 )
-  .fast(3/3)
+  .fast(3/3).log()
 //end`
 
 
