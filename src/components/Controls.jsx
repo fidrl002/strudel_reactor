@@ -39,11 +39,11 @@ export function Controls({ onVolumeChange }) {
 
                             <p>Turn selected instrument groups on or off</p>
 
-                            <div className="form-check form-switch">
+                            <div className="form-check form-switch fs-3">
                                 <input className="form-check-input" type="checkbox" name="p1-switch" id="p1-switch" defaultChecked />
                                 <label className="form-check-label" htmlFor="p1-switch">p1</label>
                             </div>
-                            <div className="form-check form-switch">
+                            <div className="form-check form-switch fs-3">
                                 <input className="form-check-input" type="checkbox" name="p2-switch" id="p2-switch" defaultChecked />
                                 <label className="form-check-label" htmlFor="p2-switch">p2</label>
                             </div>

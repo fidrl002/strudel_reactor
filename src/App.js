@@ -31,9 +31,15 @@ export default function StrudelDemo() {
 
     // handle Play button
     const handlePlay = () => {
-        let outputText = Preprocess({ inputText: songText, volume: volume });
-        globalEditor.setCode(outputText);
-        globalEditor.evaluate()
+        try {
+            let outputText = Preprocess({ inputText: songText, volume: volume });
+            globalEditor.setCode(outputText);
+            globalEditor.evaluate()
+        }
+        catch (e) {
+            console.log("Nothing to process!");
+        }
+
     }
 
     // handle Stop button

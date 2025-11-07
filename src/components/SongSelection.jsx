@@ -1,4 +1,4 @@
-import { stranger_tune, felix_roos, koji_kondo } from '../tunes';
+import { stranger_tune, friendship, koji_kondo, coastline } from '../tunes';
 import { useState } from "react";
 
 // use to select a premade tune to play from a dropdown selection
@@ -20,13 +20,16 @@ function SongSelection({ onSelect }) {
                         <button className="dropdown-item" onClick={() => { onSelect(stranger_tune); setSelectedSong("stranger_tune") }} >stranger_tune</button> 
                     </li>
                     <li>
-                        <button className="dropdown-item" onClick={() => { onSelect(felix_roos); setSelectedSong("felix_roos") }} >felix_roos</button>
+                        <button className="dropdown-item" onClick={() => { onSelect(friendship); setSelectedSong("friendship") }} >friendship</button>
+                    </li>
+                    {/*<li>*/}
+                    {/*    <button className="dropdown-item" onClick={() => { onSelect(koji_kondo); setSelectedSong("koji_kondo") }} >koji_kondo</button>*/}
+                    {/*</li>*/}
+                    <li>
+                        <button className="dropdown-item" onClick={() => { onSelect(coastline); setSelectedSong("coastline") }} >coastline</button>
                     </li>
                     <li>
-                        <button className="dropdown-item" onClick={() => { onSelect(koji_kondo); setSelectedSong("koji_kondo") }} >koji_kondo</button>
-                    </li>
-                    <li>
-                        <button className="dropdown-item btn-disabled" onClick={() => { onSelect(":-)"); setSelectedSong("none") }} >none - start fresh!</button>
+                        <button className="dropdown-item" onClick={() => { onSelect(":-)"); setSelectedSong("none") }} >none - start fresh!</button>
                     </li>
                 </ul>
                 <p className="m-3">Song selected: {selectedSong ? selectedSong : "none"}</p>
