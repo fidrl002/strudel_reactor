@@ -14,29 +14,38 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm }) {
     const slowerCPM = () => {
 
         // prevent negative number or 0
-        if (newCpm <= 1) {
-            onCPMChange(1);
+        if (newCpm < 2 || isNaN(newCpm)) {
+            onCPMChange(parseInt(inCpm));
         }
         else {
             let cpm = newCpm - 1;
-            setNewCpm(cpm);
             onCPMChange(cpm);
         }
     };
 
     // increment CPM by 1
     const fasterCPM = () => {
-        let cpm = newCpm + 1;
-        setNewCpm(cpm);
-        onCPMChange(cpm);
+        if (newCpm < 0 || isNaN(newCpm)) {
+            onCPMChange(parseInt(inCpm));
+        }
+        else {
+            let cpm = newCpm + 1;
+            onCPMChange(cpm);
+        }
+
     };
 
     // manually set custom CPM
     const setCPM = () => {
-        if (newCpm <= 1) {
-            onCPMChange(1);
+        const cpm = parseInt(newCpm);
+
+        // validation, ensure input value is an int
+        if (cpm < 1 || isNaN(cpm)) {
+            setNewCpm(parseInt(inCpm));
         }
-        onCPMChange(newCpm);
+        else {
+            onCPMChange(cpm);
+        }
     };
 
 
@@ -67,7 +76,7 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm }) {
 
                             <div className="input-group">
                                 <span className="input-group-text" id="set-cpm">Set CPM</span>
-                                <input type="text" className="form-control" placeholder="Cycles per minute" value={newCpm} onChange={(e) => setNewCpm(Number(e.target.value))} aria-label="Set-CPM" aria-describedby="set-cpm" />
+                                <input type="text" className="form-control" placeholder="Cycles per minute" value={newCpm} onChange={(e) => setNewCpm(e.target.value)} aria-label="Set-CPM" aria-describedby="set-cpm" />
                                 <button className="btn btn-primary" style={{ width: "70px" }} type="button" onClick={setCPM} >Set</button>
                             </div>
 

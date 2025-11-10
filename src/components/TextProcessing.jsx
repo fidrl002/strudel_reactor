@@ -3,7 +3,7 @@
 function TextProcessing({ value, onChange }) {
     return (
         <>
-            <label htmlFor="proc" className="form-label">Text to preprocess:</label>
+            <label htmlFor="proc" className="form-label"><i>Text to preprocess:</i></label>
             <textarea className="form-control" rows="15" value={value} onChange={onChange} id="proc" ></textarea>
         </>
     );
