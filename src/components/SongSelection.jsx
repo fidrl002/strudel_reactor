@@ -1,4 +1,4 @@
-import { stranger_tune, friendship, koji_kondo, coastline } from '../tunes';
+import { stranger_tune, friendship, coastline } from '../tunes';
 import { useState } from "react";
 
 // use to select a premade tune to play from a dropdown selection
@@ -22,9 +22,6 @@ function SongSelection({ onSelect }) {
                     <li>
                         <button className="dropdown-item" onClick={() => { onSelect(friendship); setSelectedSong("friendship") }} >friendship</button>
                     </li>
-                    {/*<li>*/}
-                    {/*    <button className="dropdown-item" onClick={() => { onSelect(koji_kondo); setSelectedSong("koji_kondo") }} >koji_kondo</button>*/}
-                    {/*</li>*/}
                     <li>
                         <button className="dropdown-item" onClick={() => { onSelect(coastline); setSelectedSong("coastline") }} >coastline</button>
                     </li>
@@ -32,8 +29,6 @@ function SongSelection({ onSelect }) {
                         <button className="dropdown-item" onClick={() => { onSelect(":-)"); setSelectedSong("none") }} >none - start fresh!</button>
                     </li>
                 </ul>
-                {/*<p className="m-3">Song selected: {selectedSong ? selectedSong : "none"}</p>*/}
-
             </div>
         </div>
     );

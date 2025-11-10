@@ -1,12 +1,50 @@
+import { useState, useEffect } from "react";
 
 // contains panel 4 - controls for changing music settings
-export function Controls({ onVolumeChange }) {
+export function Controls({ onVolumeChange, onCPMChange, inCpm }) {
+
+    const [newCpm, setNewCpm] = useState(inCpm);
+
+    // refresh cpm on song change/textarea refresh
+    useEffect(() => {
+        setNewCpm(inCpm);
+    }, [inCpm]);
+
+    // decrement CPM by 1
+    const slowerCPM = () => {
+
+        // prevent negative number or 0
+        if (newCpm <= 1) {
+            onCPMChange(1);
+        }
+        else {
+            let cpm = newCpm - 1;
+            setNewCpm(cpm);
+            onCPMChange(cpm);
+        }
+    };
+
+    // increment CPM by 1
+    const fasterCPM = () => {
+        let cpm = newCpm + 1;
+        setNewCpm(cpm);
+        onCPMChange(cpm);
+    };
+
+    // manually set custom CPM
+    const setCPM = () => {
+        if (newCpm <= 1) {
+            onCPMChange(1);
+        }
+        onCPMChange(newCpm);
+    };
+
 
     return (
         <div className="m-2">
             <div className="mb-4 fs-5">
                 <label htmlFor="master-volume" className="form-label text-center">Master Volume</label>
-                <input type="range" className="form-range secondary" min="0" max="2" step="0.1" onMouseUp={onVolumeChange} id="master-volume" />
+                <input type="range" className="form-range secondary" min="0" max="2" step="0.05" onMouseUp={onVolumeChange} id="master-volume" />
             </div>
 
             <div className="accordion" id="accordionPanelsStayOpenExample">
@@ -19,10 +57,18 @@ export function Controls({ onVolumeChange }) {
                     <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse">
                         <div className="accordion-body">
 
+                        <p>Set the cycle speed / change the tempo</p>
+
+                            <div className="input-group mb-2">
+                                <span className="input-group-text" id="cpm-increment">Increment CPM</span>
+                                <button className="btn btn-danger" type="button" onClick={slowerCPM} >slower</button>
+                                <button className="btn btn-primary" type="button" onClick={fasterCPM} >faster</button>
+                            </div>
+
                             <div className="input-group">
-                                <span className="input-group-text" id="basic-addon1">CPM/Speed:</span>
-                                <input type="text" className="form-control" placeholder="Cycles per minute" aria-label="Set-CPM" aria-describedby="basic-addon1" />
-                                <button className="btn btn-primary" type="button" >Set</button>
+                                <span className="input-group-text" id="set-cpm">Set CPM</span>
+                                <input type="text" className="form-control" placeholder="Cycles per minute" value={newCpm} onChange={(e) => setNewCpm(Number(e.target.value))} aria-label="Set-CPM" aria-describedby="set-cpm" />
+                                <button className="btn btn-primary" style={{ width: "70px" }} type="button" onClick={setCPM} >Set</button>
                             </div>
 
                         </div>
@@ -38,15 +84,6 @@ export function Controls({ onVolumeChange }) {
                         <div className="accordion-body">
 
                             <p>Turn selected instrument groups on or off</p>
-
-                            {/*<div className="form-check form-switch fs-3">*/}
-                            {/*    <input className="form-check-input" type="checkbox" name="p1-switch" id="p1-switch" defaultChecked />*/}
-                            {/*    <label className="form-check-label" htmlFor="p1-switch">p1</label>*/}
-                            {/*</div>*/}
-                            {/*<div className="form-check form-switch fs-3">*/}
-                            {/*    <input className="form-check-input" type="checkbox" name="p2-switch" id="p2-switch" defaultChecked />*/}
-                            {/*    <label className="form-check-label" htmlFor="p2-switch">p2</label>*/}
-                            {/*</div>*/}
 
                             <input type="checkbox" id="drums" name="drums" className="btn-check" />
                             <label className="btn btn-outline-primary me-1 square-btn" htmlFor="drums">

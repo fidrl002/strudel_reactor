@@ -1,5 +1,6 @@
 
-export function Preprocess({ inputText, volume }) {
+// pipeline for processing song text with volume, cpm, instrument on/off buttons etc
+export function Preprocess({ inputText, volume, cpm }) {
 
     // stop errors with no text to process
     if (inputText === "") {
@@ -8,10 +9,7 @@ export function Preprocess({ inputText, volume }) {
 
     let outputText = inputText;
 
-    //outputText += `\n//all(x => x.gain(${volume}))`
-
-    outputText = outputText.replaceAll("{$VOLUME}", volume)
-
+    // find text starting from "aword:" until next colon or "/" character
     let regex = /[a-zA-Z0-9_]+:\s*\n[\s\S]+?\r?\n(?=[a-zA-Z0-9_]*[:\/])/gm;
 
     let m;
@@ -29,6 +27,15 @@ export function Preprocess({ inputText, volume }) {
         });
     }
 
+    outputText = ProcessCPM({ outputText, cpm });
+    outputText = ProcessVolume({ outputText, matches, volume });
+
+    return outputText;
+}
+
+
+function ProcessVolume({ outputText, matches, volume }) {
+
     let matches2 = matches.map(
         match => match.replaceAll(/(?<!post)gain\(([\d.]+)\)/g, (match, captureGroup) =>
             `gain(${captureGroup}*${volume})`
@@ -38,9 +45,15 @@ export function Preprocess({ inputText, volume }) {
     let matches3 = matches.reduce(
         (text, original, i) => text.replaceAll(original, matches2[i]), outputText);
 
-    console.log(matches3);
-
     return matches3;
 }
+
+function ProcessCPM({ outputText, cpm }) {
+
+    outputText = outputText.replace(/setcpm\(([\d.]+)\)/, `setcpm(${cpm})`);
+
+    return outputText;
+}
+
 
 export default Preprocess;
