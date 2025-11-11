@@ -1,11 +1,13 @@
 function SaveLoadJson() {
 
     return (
-        <div className="mb-4">
-            <h5>Save/Load Song Data (.json file):</h5>
-            <div className="d-flex justify-content mb-1">
-                <button id="Save" className="btn btn-primary me-1" >Save</button>
-                <button id="Load" className="btn btn-primary" >Load</button>
+        <div className="card">
+            <h5 className="card-header">Save or load song data (.json file):</h5>
+            <div className="card-body">
+                <div className="d-flex justify-content">
+                    <button id="Save" className="btn btn-primary me-1" >Save</button>
+                    <button id="Load" className="btn btn-primary" >Load</button>
+                </div>
             </div>
         </div>
     );

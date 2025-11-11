@@ -1,5 +1,5 @@
 
-export const stranger_tune = `setcps(140/60/4)
+export const stranger_tune = `setcpm(33)
 
 samples('github:algorave-dave/samples')
 samples('https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json')
@@ -51,7 +51,7 @@ note(pick(basslines, bass))
 .postgain(pick(gain_patterns, pattern)).log()
 
 
-main_arp: 
+arp: 
 note(pick(arpeggiator1, "<0 1 2 3>/2"))
 .sound("supersaw")
 .lpf(300)
@@ -112,9 +112,11 @@ export const friendship = `// licensed with CC BY-NC-SA 4.0 https://creativecomm
 samples({ bd: 'bd/BT0A0D0.wav', sn: 'sn/ST0T0S3.wav', hh: 'hh/000_hh3closedhh.wav', cp: 'cp/HANDCLP0.wav',
 }, 'https://loophole-letters.vercel.app/samples/tidal/')
 
+setcpm(30)
+
 const h = x=>x.transpose("<0@2 5 0 7 5 0 -5>/2")
 
-tune:
+custom:
 stack(
   s("<<bd*2 bd> sn> hh").fast(2).gain(.7),
   "[c2 a1 bb1 ~] ~"
@@ -140,22 +142,30 @@ stack(
 export const coastline = `// "coastline" @by eddyflux
 // @version 1.0
 samples('github:eddyflux/crate')
-setcps(.75)
+
+setcpm(45)
+
 let chords = chord("<Bbm9 Fm9>/4").dict('ireal')
 
-tune:
+// DRUMS
+drums:
 stack(
-  stack( // DRUMS
     s("bd").struct("<[x*<1 2> [~@3 x]] x>"),
     s("~ [rim, sd:<2 3>]").room("<0 .2>"),
     n("[0 <1 3>]*<2!3 4>").s("hh"),
     s("rd:<1!3 2>*2").mask("<0 0 1 1>/16").gain(.5)
   ).bank('crate')
-  .mask("<[0 1] 1 1 1>/16".early(.5))
-  , // CHORDS
+  .mask("<[0 1] 1 1 1>/16".early(.5)).gain(.6)
+.late("[0 .01]*4").late("[0 .01]*2").size(4).log()
+
+// CHORDS
+piano_chords:
   chords.offset(-1).voicing().s("gm_epiano1:1")
-  .phaser(4).room(.5)
-  , // MELODY
+  .phaser(4).room(.5).gain(1)
+.late("[0 .01]*4").late("[0 .01]*2").size(4)
+
+// MELODY
+bass:
   n("<0!3 1*2>").set(chords).mode("root:g2")
   .voicing().s("gm_acoustic_bass"),
   chords.n("[0 <4 3 <2 5>>*2](<3 5>,8)")
@@ -166,38 +176,9 @@ stack(
   .lpf(sine.range(500,1000).slow(8)).lpq(5)
   .rarely(ply("2")).chunk(4, fast(2))
   .gain(perlin.range(.6, .9))
-  .mask("<0 1 1 0>/16")
-).gain(1)
-.late("[0 .01]*4").late("[0 .01]*2").size(4)
+  .mask("<0 1 1 0>/16").gain(.9)
+.late("[0 .01]*4").late("[0 .01]*2").size(4).log()
+
+
 //end`
 
-
-
-// doesn't work no samples!! Can I get them somehow?
-export const koji_kondo = `
-// Koji Kondo - Princess Zelda's Rescue
-
-stack(
-  // melody
-  "[B3@2 D4][A3@2[G3 A3]][B3@2 D4][A3]
-[B3@2 D4][A4@2 G4][D4@2[C4 B3]][A3]
-[B3@2 D4][A3@2[G3 A3]][B3@2 D4][A3]
-[B3@2 D4][A4@2 G4] D5 @2
-[D5@2[C5 B4]][[C5 B4] G4@2][C5@2[B4 A4]][[B4 A4] E4@2]
-[D5@2[C5 B4]][[C5 B4] G4 C5][G5][~ ~B3]"
-  .color('#9C7C38'),
-  // bass
-  "[[C2 G2] E3 @2][[C2 G2] F#3@2][[C2 G2] E3 @2][[C2 G2] F#3@2]
-[[B1 D3] G3 @2][[Bb1 Db3] G3@2][[A1 C3] G3 @2][[D2 C3] F#3@2]
-[[C2 G2] E3 @2][[C2 G2] F#3@2][[C2 G2] E3 @2][[C2 G2] F#3@2]
-[[B1 D3] G3 @2][[Bb1 Db3] G3@2][[A1 C3] G3 @2][[D2 C3] F#3@2]
-[[F2 C3] E3 @2][[E2 B2] D3@2][[D2 A2] C3 @2][[C2 G2] B2@2]
-[[F2 C3] E3 @2][[E2 B2] D3@2][[Eb2 Bb2] Db3 @2][[D2 A2] C3[F3, G2]]"
-  .color('#4C4646')
-).transpose(12).slow(48)
-  .superimpose(x=>x.add(0.06)) // add slightly detuned voice
-  .note()
-  .gain(.1)
-  .s('triangle')
-  .room(1)
-  //.pianoroll({fold:1})`

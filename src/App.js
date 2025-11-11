@@ -18,6 +18,7 @@ import DarkModeSwitch from './components/DarkModeSwitch';
 import { Preprocess } from './utils/PreprocessLogic';
 import SaveLoadJson from './components/SaveLoadJson';
 import SongSelection from './components/SongSelection';
+import ExtractSongCPM from './utils/ExtractFromSong';
 
 let globalEditor = null;
 
@@ -32,12 +33,12 @@ export default function StrudelDemo() {
     // handle Play button
     const handlePlay = () => {
         try {
-            let outputText = Preprocess({ inputText: songText, volume: volume });
+            let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments });
             globalEditor.setCode(outputText);
             globalEditor.evaluate()
         }
         catch (e) {
-            console.log("Nothing to process!");
+            console.log(e);
         }
 
     }
@@ -48,6 +49,7 @@ export default function StrudelDemo() {
     }
 
 
+    // ---D3 GRAPH---
     // for D3 graph, set default state
     const [musicInput, setMusicInput] = useState("");
 
@@ -63,26 +65,55 @@ export default function StrudelDemo() {
     }
 
 
-    // for song selection, using imported song variables
+    // ---SONG SELECTION---
     // updates both preprocessing textarea and editor area)
-    const [songText, setSongText] = useState("") // default
+    const [songText, setSongText] = useState(stranger_tune) // default
 
     const handleSelect = (song) => {
         setSongText(song);
     }
 
-    // volume slider state
-    const [volume, setVolume] = useState(1);
+    // update the code and default CPM when text preprocessing area is changed
+    useEffect(() => {
+        if (globalEditor) {
+            globalEditor.setCode(songText);
+            setCpm(ExtractSongCPM(songText));
+        }
+    }, [songText]);
 
+
+    // ---CONTROLS--- //
     // play state
     const [state, setState] = useState("stop");
 
-    // when volume slider updated
+    // volume slider state
+    const [volume, setVolume] = useState(1);
+
+    const [cpm, setCpm] = useState(() => ExtractSongCPM(songText));
+
+    const handleCPMChange = (cpm) => {
+        setCpm(cpm);
+    }
+
+    // process cpm on change
+    //useEffect(() => {
+    //    if (state === "play") {
+    //        handlePlay();
+    //    }
+    //}, [cpm])
+
+    const [instruments, setInstruments] = useState();
+
+    const handleHush = (instruments) => {
+        setInstruments(instruments);
+    }
+
+    // process volume and cpm on change
     useEffect(() => {
         if (state === "play") {
             handlePlay();
         }
-    }, [volume])
+    }, [volume, cpm, instruments])
 
 
     useEffect(() => {
@@ -122,19 +153,21 @@ export default function StrudelDemo() {
             // set a default song on load
             setSongText(stranger_tune);
         }
-        globalEditor.setCode(songText);
+        if (globalEditor) {
+            globalEditor.setCode(songText);
+        }
     }, [songText]);
 
 
     return (
         <div className="m-4">
-            <h1 className="ms-2 mb-4"> ~&#9835;~&#9834;~ Strudel Demo ~&#9834;~&#9835;~</h1>
+            <h1 className="ms-2 mb-4 title-text" > Strudel Demo </h1>
             <main>
 
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <TextProcessing defaultValue={songText} onChange={(e) => setSongText(e.target.value)} />
+                            <TextProcessing value={songText} onChange={(e) => setSongText(e.target.value)} />
                         </div>
                         <div className="col">
                             <div>
@@ -153,12 +186,16 @@ export default function StrudelDemo() {
                             <div id="output" />
                         </div>
                         <div className="col-md-4">
-                            <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} />
+                            <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
+                                onHush={(instruments) => handleHush(instruments)} />
                         </div>
                     </div>
                 </div>
-                <D3Graph input={musicInput} />
-                <canvas id="roll"></canvas>
+                <div className="mx-4">
+                    <D3Graph input={musicInput} />
+                </div>
+
+                <canvas id="roll" hidden></canvas>
             </main >
         </div >
     );

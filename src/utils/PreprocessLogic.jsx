@@ -1,5 +1,6 @@
 
-export function Preprocess({ inputText, volume }) {
+// pipeline for processing song text with volume, cpm, instrument on/off buttons etc
+export function Preprocess({ inputText, volume, cpm, instruments }) {
 
     // stop errors with no text to process
     if (inputText === "") {
@@ -8,10 +9,7 @@ export function Preprocess({ inputText, volume }) {
 
     let outputText = inputText;
 
-    //outputText += `\n//all(x => x.gain(${volume}))`
-
-    outputText = outputText.replaceAll("{$VOLUME}", volume)
-
+    // find text starting from "aword:" until next colon or "/" character
     let regex = /[a-zA-Z0-9_]+:\s*\n[\s\S]+?\r?\n(?=[a-zA-Z0-9_]*[:\/])/gm;
 
     let m;
@@ -29,6 +27,23 @@ export function Preprocess({ inputText, volume }) {
         });
     }
 
+    // process each setting
+    if (cpm) {
+        outputText = ProcessCPM({ outputText, cpm });
+    }
+    if (volume) {
+        outputText = ProcessVolume({ outputText, matches, volume });
+    }
+    if (instruments) {
+        outputText = ProcessHush({ outputText, instruments });
+    }
+
+    return outputText;
+}
+
+
+function ProcessVolume({ outputText, matches, volume }) {
+
     let matches2 = matches.map(
         match => match.replaceAll(/(?<!post)gain\(([\d.]+)\)/g, (match, captureGroup) =>
             `gain(${captureGroup}*${volume})`
@@ -38,9 +53,34 @@ export function Preprocess({ inputText, volume }) {
     let matches3 = matches.reduce(
         (text, original, i) => text.replaceAll(original, matches2[i]), outputText);
 
-    console.log(matches3);
-
     return matches3;
+}
+
+function ProcessCPM({ outputText, cpm }) {
+
+    outputText = outputText.replace(/setcpm\(([\d.]+)\)/, `setcpm(${cpm})`);
+
+    return outputText;
+}
+
+function ProcessHush({ outputText, instruments }) {
+
+    // iterate over each instrument to get their state (on/off)
+    for (const [instrument, state] of Object.entries(instruments)) {
+
+        // set the state in the app
+        // NOTE: this is not ideal but I couldn't get the regex right to find the instrument
+        //       within a set string e.g. main_arp:, that includes a colon at the end,
+        //       so it does also affect the strudel instrument samples with the same name!
+        if (state) {
+            outputText = outputText.replaceAll(`_${instrument}` , instrument)
+        }
+        else {
+            outputText = outputText.replaceAll(instrument, `_${instrument}`);
+        }
+    }
+
+    return outputText;
 }
 
 export default Preprocess;

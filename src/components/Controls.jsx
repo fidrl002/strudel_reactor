@@ -1,12 +1,88 @@
+import { useState, useEffect } from "react";
 
 // contains panel 4 - controls for changing music settings
-export function Controls({ onVolumeChange }) {
+export function Controls({ onVolumeChange, onCPMChange, inCpm, onHush }) {
+
+    // --CPM-- //
+    const [newCpm, setNewCpm] = useState(inCpm);
+
+    // refresh cpm on song change/textarea refresh
+    useEffect(() => {
+        setNewCpm(inCpm);
+    }, [inCpm]);
+
+    // decrement CPM by 1
+    const slowerCPM = () => {
+
+        // prevent negative number or 0
+        if (newCpm < 2 || isNaN(newCpm)) {
+            onCPMChange(parseInt(inCpm));
+        }
+        else {
+            let cpm = newCpm - 1;
+            onCPMChange(cpm);
+        }
+    };
+
+    // increment CPM by 1
+    const fasterCPM = () => {
+        if (newCpm < 0 || isNaN(newCpm)) {
+            onCPMChange(parseInt(inCpm));
+        }
+        else {
+            let cpm = newCpm + 1;
+            onCPMChange(cpm);
+        }
+
+    };
+
+    // manually set custom CPM
+    const setCPM = () => {
+        const cpm = parseInt(newCpm);
+
+        // validation, ensure input value is an int
+        if (cpm < 1 || isNaN(cpm)) {
+            setNewCpm(parseInt(inCpm));
+        }
+        else {
+            onCPMChange(cpm);
+        }
+    };
+
+
+    // --INSTRUMENTS-- //
+
+    // all (current) instruments in an object
+    const [instruments, setInstruments] = useState({
+        drums: true,
+        bass: true,
+        arp: true,
+        piano: true,
+        guitar: true,
+        custom: true
+    })
+
+    // one handler to rule them all
+    const handleInstrumentCheck = (e) => {
+        const { name, checked } = e.target; // get the values from input element
+
+        const newInstruments = {
+            ...instruments,
+            [name]: checked,
+        };
+        // set the instrument in the object list
+        setInstruments(newInstruments);
+
+        // send new instrument state up to main
+        onHush(newInstruments);
+    };
+
 
     return (
         <div className="m-2">
             <div className="mb-4 fs-5">
                 <label htmlFor="master-volume" className="form-label text-center">Master Volume</label>
-                <input type="range" className="form-range secondary" min="0" max="2" step="0.1" onMouseUp={onVolumeChange} id="master-volume" />
+                <input type="range" className="form-range secondary" min="0" max="2" step="0.05" onMouseUp={onVolumeChange} id="master-volume" />
             </div>
 
             <div className="accordion" id="accordionPanelsStayOpenExample">
@@ -19,10 +95,18 @@ export function Controls({ onVolumeChange }) {
                     <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse">
                         <div className="accordion-body">
 
+                        <p>Set the cycle speed / change the tempo</p>
+
+                            <div className="input-group mb-2">
+                                <span className="input-group-text" id="cpm-increment">Increment CPM</span>
+                                <button className="btn btn-danger" type="button" onClick={slowerCPM} >slower</button>
+                                <button className="btn btn-primary" type="button" onClick={fasterCPM} >faster</button>
+                            </div>
+
                             <div className="input-group">
-                                <span className="input-group-text" id="basic-addon1">CPM/Speed:</span>
-                                <input type="text" className="form-control" placeholder="Cycles per minute" aria-label="Set-CPM" aria-describedby="basic-addon1" />
-                                <button className="btn btn-primary" type="button" >Set</button>
+                                <span className="input-group-text" id="set-cpm">Set CPM</span>
+                                <input type="text" className="form-control" placeholder="Cycles per minute" value={newCpm} onChange={(e) => setNewCpm(e.target.value)} aria-label="Set-CPM" aria-describedby="set-cpm" />
+                                <button className="btn btn-primary" style={{ width: "70px" }} type="button" onClick={setCPM} >Set</button>
                             </div>
 
                         </div>
@@ -39,28 +123,30 @@ export function Controls({ onVolumeChange }) {
 
                             <p>Turn selected instrument groups on or off</p>
 
-                            {/*<div className="form-check form-switch fs-3">*/}
-                            {/*    <input className="form-check-input" type="checkbox" name="p1-switch" id="p1-switch" defaultChecked />*/}
-                            {/*    <label className="form-check-label" htmlFor="p1-switch">p1</label>*/}
-                            {/*</div>*/}
-                            {/*<div className="form-check form-switch fs-3">*/}
-                            {/*    <input className="form-check-input" type="checkbox" name="p2-switch" id="p2-switch" defaultChecked />*/}
-                            {/*    <label className="form-check-label" htmlFor="p2-switch">p2</label>*/}
-                            {/*</div>*/}
-
-                            <input type="checkbox" id="drums" name="drums" className="btn-check" />
-                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="drums">
+                            <input type="checkbox" id="drums" name="drums" className="btn-check" checked={instruments.drums === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="drums">
                                 Drums
                             </label>
-                            <input type="checkbox" id="bass" name="bass" className="btn-check" />
-                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="bass">
+                            <input type="checkbox" id="bass" name="bass" className="btn-check" checked={instruments.bass === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="bass">
                                 Bass
                             </label>
-                            <input type="checkbox" id="arp" name="arp" className="btn-check" />
-                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="arp">
+                            <input type="checkbox" id="arp" name="arp" className="btn-check" checked={instruments.arp === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="arp">
                                 Arp
                             </label>
-
+                            <input type="checkbox" id="piano" name="piano" className="btn-check" checked={instruments.piano === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="piano">
+                                Piano
+                            </label>
+                            <input type="checkbox" id="guitar" name="guitar" className="btn-check" checked={instruments.guitar === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="guitar">
+                                Guitar
+                            </label>
+                            <input type="checkbox" id="custom" name="custom" className="btn-check" checked={instruments.custom === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="custom">
+                                Custom
+                            </label>
                         </div>
                     </div>
                 </div>
