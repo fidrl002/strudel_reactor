@@ -33,7 +33,7 @@ export default function StrudelDemo() {
     // handle Play button
     const handlePlay = () => {
         try {
-            let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm });
+            let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments });
             globalEditor.setCode(outputText);
             globalEditor.evaluate()
         }
@@ -81,22 +81,14 @@ export default function StrudelDemo() {
         }
     }, [songText]);
 
-    // ---VOLUME---
-    // volume slider state
-    const [volume, setVolume] = useState(1);
 
+    // ---CONTROLS--- //
     // play state
     const [state, setState] = useState("stop");
 
-    // when volume slider updated
-    useEffect(() => {
-        if (state === "play") {
-            handlePlay();
-        }
-    }, [volume])
+    // volume slider state
+    const [volume, setVolume] = useState(1);
 
-
-    // ---SET CPM---
     const [cpm, setCpm] = useState(() => ExtractSongCPM(songText));
 
     const handleCPMChange = (cpm) => {
@@ -104,11 +96,24 @@ export default function StrudelDemo() {
     }
 
     // process cpm on change
+    //useEffect(() => {
+    //    if (state === "play") {
+    //        handlePlay();
+    //    }
+    //}, [cpm])
+
+    const [instruments, setInstruments] = useState();
+
+    const handleHush = (instruments) => {
+        setInstruments(instruments);
+    }
+
+    // process volume and cpm on change
     useEffect(() => {
         if (state === "play") {
             handlePlay();
         }
-    }, [cpm])
+    }, [volume, cpm, instruments])
 
 
     useEffect(() => {
@@ -156,7 +161,7 @@ export default function StrudelDemo() {
 
     return (
         <div className="m-4">
-            <h1 className="ms-2 mb-4 title-text" > ~&#9835;~&#9834;~ Strudel Demo ~&#9834;~&#9835;~</h1>
+            <h1 className="ms-2 mb-4 title-text" > Strudel Demo </h1>
             <main>
 
                 <div className="container-fluid">
@@ -181,7 +186,8 @@ export default function StrudelDemo() {
                             <div id="output" />
                         </div>
                         <div className="col-md-4">
-                            <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm} />
+                            <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
+                                onHush={(instruments) => handleHush(instruments)} />
                         </div>
                     </div>
                 </div>

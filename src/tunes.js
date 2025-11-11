@@ -51,7 +51,7 @@ note(pick(basslines, bass))
 .postgain(pick(gain_patterns, pattern)).log()
 
 
-main_arp: 
+arp: 
 note(pick(arpeggiator1, "<0 1 2 3>/2"))
 .sound("supersaw")
 .lpf(300)
@@ -116,7 +116,7 @@ setcpm(30)
 
 const h = x=>x.transpose("<0@2 5 0 7 5 0 -5>/2")
 
-tune:
+custom:
 stack(
   s("<<bd*2 bd> sn> hh").fast(2).gain(.7),
   "[c2 a1 bb1 ~] ~"

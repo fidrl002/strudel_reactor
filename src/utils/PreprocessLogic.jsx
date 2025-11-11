@@ -1,6 +1,6 @@
 
 // pipeline for processing song text with volume, cpm, instrument on/off buttons etc
-export function Preprocess({ inputText, volume, cpm }) {
+export function Preprocess({ inputText, volume, cpm, instruments }) {
 
     // stop errors with no text to process
     if (inputText === "") {
@@ -27,8 +27,16 @@ export function Preprocess({ inputText, volume, cpm }) {
         });
     }
 
-    outputText = ProcessCPM({ outputText, cpm });
-    outputText = ProcessVolume({ outputText, matches, volume });
+    // process each setting
+    if (cpm) {
+        outputText = ProcessCPM({ outputText, cpm });
+    }
+    if (volume) {
+        outputText = ProcessVolume({ outputText, matches, volume });
+    }
+    if (instruments) {
+        outputText = ProcessHush({ outputText, instruments });
+    }
 
     return outputText;
 }
@@ -55,5 +63,24 @@ function ProcessCPM({ outputText, cpm }) {
     return outputText;
 }
 
+function ProcessHush({ outputText, instruments }) {
+
+    // iterate over each instrument to get their state (on/off)
+    for (const [instrument, state] of Object.entries(instruments)) {
+
+        // set the state in the app
+        // NOTE: this is not ideal but I couldn't get the regex right to find the instrument
+        //       within a set string e.g. main_arp:, that includes a colon at the end,
+        //       so it does also affect the strudel instrument samples with the same name!
+        if (state) {
+            outputText = outputText.replaceAll(`_${instrument}` , instrument)
+        }
+        else {
+            outputText = outputText.replaceAll(instrument, `_${instrument}`);
+        }
+    }
+
+    return outputText;
+}
 
 export default Preprocess;

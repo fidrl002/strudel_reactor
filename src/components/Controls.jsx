@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 
 // contains panel 4 - controls for changing music settings
-export function Controls({ onVolumeChange, onCPMChange, inCpm }) {
+export function Controls({ onVolumeChange, onCPMChange, inCpm, onHush }) {
 
+    // --CPM-- //
     const [newCpm, setNewCpm] = useState(inCpm);
 
     // refresh cpm on song change/textarea refresh
@@ -46,6 +47,34 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm }) {
         else {
             onCPMChange(cpm);
         }
+    };
+
+
+    // --INSTRUMENTS-- //
+
+    // all (current) instruments in an object
+    const [instruments, setInstruments] = useState({
+        drums: true,
+        bass: true,
+        arp: true,
+        piano: true,
+        guitar: true,
+        custom: true
+    })
+
+    // one handler to rule them all
+    const handleInstrumentCheck = (e) => {
+        const { name, checked } = e.target; // get the values from input element
+
+        const newInstruments = {
+            ...instruments,
+            [name]: checked,
+        };
+        // set the instrument in the object list
+        setInstruments(newInstruments);
+
+        // send new instrument state up to main
+        onHush(newInstruments);
     };
 
 
@@ -94,19 +123,30 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm }) {
 
                             <p>Turn selected instrument groups on or off</p>
 
-                            <input type="checkbox" id="drums" name="drums" className="btn-check" />
-                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="drums">
+                            <input type="checkbox" id="drums" name="drums" className="btn-check" checked={instruments.drums === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="drums">
                                 Drums
                             </label>
-                            <input type="checkbox" id="bass" name="bass" className="btn-check" />
-                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="bass">
+                            <input type="checkbox" id="bass" name="bass" className="btn-check" checked={instruments.bass === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="bass">
                                 Bass
                             </label>
-                            <input type="checkbox" id="arp" name="arp" className="btn-check" />
-                            <label className="btn btn-outline-primary me-1 square-btn" htmlFor="arp">
+                            <input type="checkbox" id="arp" name="arp" className="btn-check" checked={instruments.arp === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="arp">
                                 Arp
                             </label>
-
+                            <input type="checkbox" id="piano" name="piano" className="btn-check" checked={instruments.piano === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="piano">
+                                Piano
+                            </label>
+                            <input type="checkbox" id="guitar" name="guitar" className="btn-check" checked={instruments.guitar === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="guitar">
+                                Guitar
+                            </label>
+                            <input type="checkbox" id="custom" name="custom" className="btn-check" checked={instruments.custom === true} onChange={handleInstrumentCheck} />
+                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="custom">
+                                Custom
+                            </label>
                         </div>
                     </div>
                 </div>
