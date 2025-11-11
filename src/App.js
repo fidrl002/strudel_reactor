@@ -22,10 +22,6 @@ import ExtractSongCPM from './utils/ExtractFromSong';
 
 let globalEditor = null;
 
-//const handleD3Data = (event) => {
-//    console.log(event.detail);
-//};
-
 export default function StrudelDemo() {
 
     const hasRun = useRef(false);
@@ -40,7 +36,6 @@ export default function StrudelDemo() {
         catch (e) {
             console.log(e);
         }
-
     }
 
     // handle Stop button
@@ -49,7 +44,7 @@ export default function StrudelDemo() {
     }
 
 
-    // ---D3 GRAPH---
+    // ---D3 GRAPH--- //
     // for D3 graph, set default state
     const [musicInput, setMusicInput] = useState("");
 
@@ -65,7 +60,7 @@ export default function StrudelDemo() {
     }
 
 
-    // ---SONG SELECTION---
+    // ---SONG SELECTION--- //
     // updates both preprocessing textarea and editor area)
     const [songText, setSongText] = useState(stranger_tune) // default
 
@@ -83,10 +78,8 @@ export default function StrudelDemo() {
 
 
     // ---CONTROLS--- //
-    // play state
-    const [state, setState] = useState("stop");
+    const [state, setState] = useState("stop"); // play state
 
-    // volume slider state
     const [volume, setVolume] = useState(1);
 
     const [cpm, setCpm] = useState(() => ExtractSongCPM(songText));
@@ -94,13 +87,6 @@ export default function StrudelDemo() {
     const handleCPMChange = (cpm) => {
         setCpm(cpm);
     }
-
-    // process cpm on change
-    //useEffect(() => {
-    //    if (state === "play") {
-    //        handlePlay();
-    //    }
-    //}, [cpm])
 
     const [instruments, setInstruments] = useState();
 
@@ -115,6 +101,55 @@ export default function StrudelDemo() {
         }
     }, [volume, cpm, instruments])
 
+
+    // ---SAVE & LOAD JSON--- //
+
+    // saves json file with songText, cpm and instrument settings
+    const handleSave = () => {
+        const saveData = JSON.stringify({ songText, cpm, instruments }, null, 2);
+
+        const blob = new Blob([saveData], {
+            type: "application/javascript"
+        });
+
+        const url = URL.createObjectURL(blob);
+
+        // create temp <a> element and trigger file download
+        const temp = document.createElement("a");
+        temp.href = url;
+        temp.download = "strudelsong.json"
+        document.body.appendChild(temp);
+        temp.click();
+
+        // remove element and revoke url
+        document.body.removeChild(temp);
+        URL.revokeObjectURL(url);
+    }
+
+    // loads json file and sets songText, cpm and instrument settings
+    const handleLoad = (e) => {
+        const file = e.target.files[0];
+        if (!file) {
+            return;
+        }
+
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+
+                TextProcessing("");
+                if (data.songText !== undefined) setSongText(data.songText);
+                if (data.cpm !== undefined) setCpm(data.cpm);
+                if (data.instruments !== undefined) setInstruments(data.instruments);
+            }
+            catch (e) {
+                console.error("Invalid JSON file!", e);
+            }
+        };
+
+        fileReader.readAsText(file);
+    };
 
     useEffect(() => {
         if (!hasRun.current) {
@@ -161,9 +196,8 @@ export default function StrudelDemo() {
 
     return (
         <div className="m-4">
-            <h1 className="ms-2 mb-4 title-text" > Strudel Demo </h1>
+            <h1 className="ms-2 mb-4 title-text" ><strong> &#9835;~&#9834; Strudel Demo &#9835;~&#9834; </strong></h1>
             <main>
-
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
@@ -176,7 +210,7 @@ export default function StrudelDemo() {
                             <div>
                                 <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
                                 <SongSelection onSelect={handleSelect} />
-                                <SaveLoadJson />
+                                <SaveLoadJson onSave={handleSave} onLoad={handleLoad} />
                             </div>
                         </div>
                     </div>
@@ -194,11 +228,8 @@ export default function StrudelDemo() {
                 <div className="mx-4">
                     <D3Graph input={musicInput} />
                 </div>
-
                 <canvas id="roll" hidden></canvas>
             </main >
         </div >
     );
-
-
 }
