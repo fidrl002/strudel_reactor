@@ -156,7 +156,7 @@ export default function StrudelDemo() {
 
     return (
         <div className="m-4">
-            <h1 className="ms-2 mb-4"> ~&#9835;~&#9834;~ Strudel Demo ~&#9834;~&#9835;~</h1>
+            <h1 className="ms-2 mb-4 title-text" > ~&#9835;~&#9834;~ Strudel Demo ~&#9834;~&#9835;~</h1>
             <main>
 
                 <div className="container-fluid">
@@ -185,8 +185,11 @@ export default function StrudelDemo() {
                         </div>
                     </div>
                 </div>
-                <D3Graph input={musicInput} />
-                <canvas id="roll"></canvas>
+                <div className="mx-4">
+                    <D3Graph input={musicInput} />
+                </div>
+
+                <canvas id="roll" hidden></canvas>
             </main >
         </div >
     );

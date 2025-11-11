@@ -26,3 +26,9 @@ body.dark-mode {
     line-height: 2.5 !important;
     font-size: 25px !important;
 }
+
+.title-text {
+    color: #a980bd;
+    font-size: 50px;
+    text-shadow: 2px 2px black;
+}

@@ -25,7 +25,7 @@ function GetGain(input) {
 function D3Graph({ input }) {
 
     const [inputArray, setInputArray] = useState([]);
-    const maxItems = 30;
+    const maxItems = 35;
     const maxValue = 1;
 
     useEffect(() => {
@@ -50,9 +50,10 @@ function D3Graph({ input }) {
 
         // set width and height
         let w = svg.node().getBoundingClientRect().width;
+        w = w - 10;
         let h = svg.node().getBoundingClientRect().height;
 
-        const barMargin = 10;
+        const barMargin = 5;
         const barWidth = w / inputArray.length;
 
         // create yScale
@@ -74,21 +75,17 @@ function D3Graph({ input }) {
             .attr("y", d => yScale(d))
             .attr("width", barWidth - barMargin)
             .attr("height", d => { return h - yScale(d) })
-            .style("fill", "cyan");
+            .style("fill", "#a980bd");
 
     }, [inputArray]);
 
 
     return (
-        <div className="App container mt-3">
-            <h2>
-                Gain Output
-            </h2>
-            {/*<p>values: {inputArray}</p>*/}
-            <div className="row">
-                <svg width="100%" height="300px" className="border border-primary rounded p-2"></svg>
+        <span className="App container">
+            <div className="row border border-dark rounded">
+                <svg width="100%" height="300px" className="border border-light rounded p-2"></svg>
             </div>
-        </div>
+        </span>
     )
 }
 
