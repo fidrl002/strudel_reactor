@@ -82,9 +82,7 @@ function D3Graph({ input }) {
 
     return (
         <span className="App container">
-            <h4> &#128639;&#128638;&#128639;&#128638;&#128639;&#128638;
-                Visualizer
-                &#128639;&#128638;&#128639;&#128638;&#128639;&#128638;</h4>
+            <h4> &#128639;&#128639; Visualizer &#128638;&#128638;</h4>
 
             <div className="row border border-dark rounded">
                 <svg width="100%" height="300px" className="border border-light rounded p-2"></svg>
