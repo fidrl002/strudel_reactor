@@ -30,8 +30,8 @@ export function ExtractInstrumentLabels(songText) {
             regex.lastIndex++;
         }
 
-        // get the label WITH the colon to send back to preprocessing
-        matches.push(m[0])
+        // get the label without the colon to send back to preprocessing
+        matches.push(m[1])
     }
 
     for (const match of matches) {

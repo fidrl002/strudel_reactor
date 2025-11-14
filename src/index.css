@@ -21,9 +21,9 @@ body.dark-mode {
 /* replicate midi-ish button style */
 .square-btn {
     display: flex;
-    width: 130px !important;
-    height: 80px !important;
-    line-height: 2.5 !important;
+    width: 140px !important;
+    height: 90px !important;
+    line-height: 2.75 !important;
     font-size: 25px !important;
 }
 

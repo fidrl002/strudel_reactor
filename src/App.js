@@ -27,6 +27,7 @@ export default function StrudelDemo() {
     const hasRun = useRef(false);
 
     // handle Play button
+    // processes the songText to update volume, cpm and instrument states
     const handlePlay = () => {
         try {
             let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments });
@@ -68,11 +69,13 @@ export default function StrudelDemo() {
         setSongText(song);
     }
 
-    // update the code and default CPM when text preprocessing area is changed
+    // update the songText code, CPM and instrumentLabels when text preprocessing area is changed
     useEffect(() => {
         if (globalEditor) {
             globalEditor.setCode(songText);
             setCpm(ExtractSongCPM(songText));
+            setInstrumentLabels(ExtractInstrumentLabels(songText));
+
         }
     }, [songText]);
 
@@ -84,28 +87,39 @@ export default function StrudelDemo() {
 
     const [cpm, setCpm] = useState(() => ExtractSongCPM(songText));
 
-    const [instrumentLabels, setInstrumentLabels] = useState(() => ExtractInstrumentLabels(songText));
-
     const handleCPMChange = (cpm) => {
         setCpm(cpm);
     }
 
-    const [instruments, setInstruments] = useState();
+    const [instrumentLabels, setInstrumentLabels] = useState(() => ExtractInstrumentLabels(songText));
+
+    const [instruments, setInstruments] = useState({});
+
+    useEffect(() => {
+        if (!instrumentLabels.length) return;
+
+        setInstruments(prev => {
+            const updated = {};
+            instrumentLabels.forEach(label => {
+                updated[label] = prev[label] ?? true;
+            });
+            return updated;
+        });
+    }, [instrumentLabels]);
 
     const handleHush = (instruments) => {
         setInstruments(instruments);
     }
 
-    // process volume and cpm on change
+    // process volume, cpm and instruments on change
     useEffect(() => {
         if (state === "play") {
             handlePlay();
         }
-    }, [volume, cpm, instruments])
+    }, [volume, cpm, instruments, instrumentLabels])
 
 
     // ---SAVE & LOAD JSON--- //
-
     // saves json file with songText, cpm and instrument settings
     const handleSave = () => {
         const saveData = JSON.stringify({ songText, cpm, instruments }, null, 2);
@@ -144,6 +158,10 @@ export default function StrudelDemo() {
                 if (data.songText !== undefined) setSongText(data.songText);
                 if (data.cpm !== undefined) setCpm(data.cpm);
                 if (data.instruments !== undefined) setInstruments(data.instruments);
+
+                let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments });
+                globalEditor.setCode(outputText);
+
             }
             catch (e) {
                 console.error("Invalid JSON file!", e);
@@ -223,7 +241,7 @@ export default function StrudelDemo() {
                         </div>
                         <div className="col-md-4">
                             <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
-                                onHush={(instruments) => handleHush(instruments)} />
+                                instrumentStates={instruments} instrumentLabels={instrumentLabels} onHush={(newInstrumentState) => handleHush(newInstrumentState)} />
                         </div>
                     </div>
                 </div>

@@ -159,13 +159,13 @@ stack(
 .late("[0 .01]*4").late("[0 .01]*2").size(4).log()
 
 // CHORDS
-piano_chords:
+chords:
   chords.offset(-1).voicing().s("gm_epiano1:1")
   .phaser(4).room(.5).gain(1)
 .late("[0 .01]*4").late("[0 .01]*2").size(4)
 
 // MELODY
-bass:
+melody:
   n("<0!3 1*2>").set(chords).mode("root:g2")
   .voicing().s("gm_acoustic_bass"),
   chords.n("[0 <4 3 <2 5>>*2](<3 5>,8)")

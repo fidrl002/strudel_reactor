@@ -68,15 +68,12 @@ function ProcessHush({ outputText, instruments }) {
     // iterate over each instrument to get their state (on/off)
     for (const [instrument, state] of Object.entries(instruments)) {
 
-        // set the state in the app
-        // NOTE: this is not ideal but I couldn't get the regex right to find the instrument
-        //       within a set string e.g. main_arp:, that includes a colon at the end,
-        //       so it does also affect the strudel instrument samples with the same name!
+        // set the state in the app (instrument names are all unique/dynamic unless named the same by the user)
         if (state) {
-            outputText = outputText.replaceAll(`_${instrument}` , instrument)
+            outputText = outputText.replaceAll(`_${instrument}:`, `${instrument}:`)
         }
         else {
-            outputText = outputText.replaceAll(instrument, `_${instrument}`);
+            outputText = outputText.replaceAll(`${instrument}:`, `_${instrument}:`);
         }
     }
 

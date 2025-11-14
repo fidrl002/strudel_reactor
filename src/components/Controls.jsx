@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // contains panel 4 - controls for changing music settings
-export function Controls({ onVolumeChange, onCPMChange, inCpm, onHush }) {
+export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates, instrumentLabels, onHush }) {
 
     // --CPM-- //
     const [newCpm, setNewCpm] = useState(inCpm);
@@ -51,30 +51,14 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, onHush }) {
 
 
     // --INSTRUMENTS-- //
-
-    // all (current) instruments in an object
-    const [instruments, setInstruments] = useState({
-        drums: true,
-        bass: true,
-        arp: true,
-        piano: true,
-        guitar: true,
-        custom: true
-    })
-
-    // one handler to rule them all
+    // handle instrument toggle (instrument checkbox onChange event)
     const handleInstrumentCheck = (e) => {
         const { name, checked } = e.target; // get the values from input element
 
-        const newInstruments = {
-            ...instruments,
-            [name]: checked,
-        };
-        // set the instrument in the object list
-        setInstruments(newInstruments);
-
-        // send new instrument state up to main
-        onHush(newInstruments);
+        onHush({
+            ...instrumentStates,
+            [name]: checked, // assign the value to the selected instrument
+        });
     };
 
 
@@ -88,7 +72,8 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, onHush }) {
             <div className="accordion" id="accordionPanelsStayOpenExample">
                 <div className="accordion-item">
                     <h2 className="accordion-header">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
+                            aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
                             <h5>Set CPM</h5>
                         </button>
                     </h2>
@@ -105,7 +90,8 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, onHush }) {
 
                             <div className="input-group">
                                 <span className="input-group-text" id="set-cpm">Set CPM</span>
-                                <input type="text" className="form-control" placeholder="Cycles per minute" value={newCpm} onChange={(e) => setNewCpm(e.target.value)} aria-label="Set-CPM" aria-describedby="set-cpm" />
+                                <input type="text" className="form-control" placeholder="Cycles per minute" value={newCpm}
+                                    onChange={(e) => setNewCpm(e.target.value)} aria-label="Set-CPM" aria-describedby="set-cpm" />
                                 <button className="btn btn-primary" style={{ width: "70px" }} type="button" onClick={setCPM} >Set</button>
                             </div>
 
@@ -114,7 +100,8 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, onHush }) {
                 </div>
                 <div className="accordion-item">
                     <h2 className="accordion-header">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
+                            aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
                             <h5>Instrument Switches</h5>
                         </button>
                     </h2>
@@ -123,36 +110,27 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, onHush }) {
 
                             <p>Turn selected instrument groups on or off</p>
 
-                            <input type="checkbox" id="drums" name="drums" className="btn-check" checked={instruments.drums === true} onChange={handleInstrumentCheck} />
-                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="drums">
-                                Drums
-                            </label>
-                            <input type="checkbox" id="bass" name="bass" className="btn-check" checked={instruments.bass === true} onChange={handleInstrumentCheck} />
-                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="bass">
-                                Bass
-                            </label>
-                            <input type="checkbox" id="arp" name="arp" className="btn-check" checked={instruments.arp === true} onChange={handleInstrumentCheck} />
-                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="arp">
-                                Arp
-                            </label>
-                            <input type="checkbox" id="piano" name="piano" className="btn-check" checked={instruments.piano === true} onChange={handleInstrumentCheck} />
-                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="piano">
-                                Piano
-                            </label>
-                            <input type="checkbox" id="guitar" name="guitar" className="btn-check" checked={instruments.guitar === true} onChange={handleInstrumentCheck} />
-                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="guitar">
-                                Guitar
-                            </label>
-                            <input type="checkbox" id="custom" name="custom" className="btn-check" checked={instruments.custom === true} onChange={handleInstrumentCheck} />
-                            <label className="btn btn-outline-primary m-1 square-btn" htmlFor="custom">
-                                Custom
-                            </label>
+                            {/* Create instrument buttons dynamically */}
+                            <div className="d-flex flex-row flex-wrap justify-content-start">
+
+                                {instrumentLabels.map((label) => (
+                                    <div key={label}>
+                                        <input type="checkbox" style={{ fontSize: "auto" }} id={label} name={label} className="btn-check"
+                                            checked={instrumentStates[label] === true} onChange={handleInstrumentCheck} />
+                                        <label className="btn btn-outline-primary m-1 square-btn" htmlFor={label} >
+                                            {label}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+
                         </div>
                     </div>
                 </div>
                 <div className="accordion-item">
                     <h2 className="accordion-header">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
+                            aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
                             <h5>Pattern Selection</h5>
                         </button>
                     </h2>
