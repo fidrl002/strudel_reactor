@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\utils\\extractfromsong.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\utils\\extractfromsong.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\components\\saveloadjson.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\components\\saveloadjson.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\utils\\preprocesslogic.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\utils\\preprocesslogic.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|c:\\users\\rache\\documents\\github\\strudel_reactor\\src\\components\\d3graph.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{1C538C04-AF09-44AC-9272-6DDEAA808F25}|ReactAssignment.esproj|solutionrelative:src\\components\\d3graph.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,17 +26,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 218,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "App.js",
               "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\App.js",
               "RelativeDocumentMoniker": "src\\App.js",
               "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\App.js",
               "RelativeToolTip": "src\\App.js",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAAAHkAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAQwFcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-11-10T11:20:02.383Z",
               "IsPinned": true,
@@ -36,15 +44,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SaveLoadJson.jsx",
-              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\SaveLoadJson.jsx",
-              "RelativeDocumentMoniker": "src\\components\\SaveLoadJson.jsx",
-              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\SaveLoadJson.jsx",
-              "RelativeToolTip": "src\\components\\SaveLoadJson.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "ExtractFromSong.jsx",
+              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\utils\\ExtractFromSong.jsx",
+              "RelativeDocumentMoniker": "src\\utils\\ExtractFromSong.jsx",
+              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\utils\\ExtractFromSong.jsx",
+              "RelativeToolTip": "src\\utils\\ExtractFromSong.jsx",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-11-11T06:50:16.683Z",
+              "WhenOpened": "2025-11-13T23:22:54.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PreprocessLogic.jsx",
+              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\utils\\PreprocessLogic.jsx",
+              "RelativeDocumentMoniker": "src\\utils\\PreprocessLogic.jsx",
+              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\utils\\PreprocessLogic.jsx",
+              "RelativeToolTip": "src\\utils\\PreprocessLogic.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-11-13T22:28:43.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "D3Graph.jsx",
+              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\D3Graph.jsx",
+              "RelativeDocumentMoniker": "src\\components\\D3Graph.jsx",
+              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\D3Graph.jsx",
+              "RelativeToolTip": "src\\components\\D3Graph.jsx",
+              "ViewState": "AgIAACgAAAAAAAAAAAAgwDkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-11-11T10:56:28.402Z",
               "EditorCaption": ""
             }
           ]

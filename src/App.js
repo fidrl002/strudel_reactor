@@ -18,7 +18,7 @@ import DarkModeSwitch from './components/DarkModeSwitch';
 import { Preprocess } from './utils/PreprocessLogic';
 import SaveLoadJson from './components/SaveLoadJson';
 import SongSelection from './components/SongSelection';
-import ExtractSongCPM from './utils/ExtractFromSong';
+import { ExtractSongCPM, ExtractInstrumentLabels } from './utils/ExtractFromSong';
 
 let globalEditor = null;
 
@@ -83,6 +83,8 @@ export default function StrudelDemo() {
     const [volume, setVolume] = useState(1);
 
     const [cpm, setCpm] = useState(() => ExtractSongCPM(songText));
+
+    const [instrumentLabels, setInstrumentLabels] = useState(() => ExtractInstrumentLabels(songText));
 
     const handleCPMChange = (cpm) => {
         setCpm(cpm);
