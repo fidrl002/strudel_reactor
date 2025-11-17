@@ -215,9 +215,11 @@ export default function StrudelDemo() {
 
 
     return (
-        <div className="m-4">
-            <h1 className="ms-2 mb-4 title-text" ><strong> &#9835;~&#9834; Strudel Demo &#9835;~&#9834; </strong></h1>
-            <main>
+        <div>
+            <div className="navbar">
+                <h1 className="mt-4 ms-5 title-text" ><strong> &#9835;~&#9834; Strudel Demo &#9835;~&#9834; </strong></h1>
+            </div>
+            <main className="m-5">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>

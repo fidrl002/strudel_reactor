@@ -102,7 +102,7 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates,
                     <h2 className="accordion-header">
                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
                             aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                            <h5>Instrument Switches</h5>
+                            <h5>Instrument Hush</h5>
                         </button>
                     </h2>
                     <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse">
@@ -137,7 +137,27 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates,
                     <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse">
                         <div className="accordion-body">
 
-                            <p>Controls for changing pattern sets coming soon!</p>
+                            <p>Change the music pattern (if applicable)</p>
+                            <div className="fs-5 d-flex flex-wrap justify-content-start">
+                                <div className="mb-3 me-4 border rounded bg-light p-2">
+                                    <input type="radio" id="pattern0" name="pattern" className="me-2 ms-2" />
+                                    <label htmlFor="pattern0">
+                                        Pattern 0
+                                    </label>
+                                </div>
+                                <div className="mb-3 me-4 border rounded bg-light p-2">
+                                    <input type="radio" id="pattern1" name="pattern" className="me-2 ms-2" />
+                                    <label htmlFor="pattern1">
+                                        Pattern 1
+                                    </label>
+                                </div>
+                                <div className="mb-2 me-4 border rounded bg-light p-2">
+                                    <input type="radio" id="pattern2" name="pattern" className="me-2 ms-2" />
+                                    <label htmlFor="pattern2">
+                                        Pattern 2
+                                    </label>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
