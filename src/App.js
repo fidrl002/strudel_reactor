@@ -50,7 +50,12 @@ export default function StrudelDemo() {
 
     // handle Stop button
     const handleStop = () => {
-        globalEditor.stop()
+        try {
+            globalEditor.stop()
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 
 
@@ -250,33 +255,50 @@ export default function StrudelDemo() {
             <div className="navbar">
                 <h1 className="mt-4 ms-5 title-text" ><strong> &#9835;~&#9834; Strudel Demo &#9835;~&#9834; </strong></h1>
             </div>
-            <main className="m-5">
+            <main className="m-5 mt-2">
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <TextProcessing value={songText} onChange={(e) => setSongText(e.target.value)} />
+                        <div className="col-7">
+                            <div className="row" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                                <TextProcessing value={songText} onChange={(e) => setSongText(e.target.value)} />
+                            </div>
+                            <div className="row" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                                <div id="editor" />
+                                <div id="output" />
+                            </div>
                         </div>
                         <div className="col">
-                            <div>
-                                <DarkModeSwitch />
+                            <div className="row">
+                                <div className="m-2">
+                                    <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
+                                </div>
+                                <div class="accordion m-2" id="accordionExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <h5>Settings</h5>
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div>
+                                                    <DarkModeSwitch />
+                                                </div>
+                                                <div>
+                                                    <SongSelection onSelect={handleSelect} />
+                                                    <SaveLoadJson onSave={handleSave} onLoad={handleLoad} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
-                                <SongSelection onSelect={handleSelect} />
-                                <SaveLoadJson onSave={handleSave} onLoad={handleLoad} />
+                            <div className="row">
+                                <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
+                                    instrumentStates={instruments} instrumentLabels={instrumentLabels} onHush={(newInstrumentState) => handleHush(newInstrumentState)}
+                                    patterns={patterns} onPatternSelect={(num) => setCurrentPattern(num)} onLpfChange={(e) => setLpf(e.target.value)}
+                                    onDelayChange={(e) => setDelay(e.target.value)} onRoomChange={(e) => setRoom(e.target.value)} />
                             </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <div id="editor" />
-                            <div id="output" />
-                        </div>
-                        <div className="col-md-4">
-                            <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
-                                instrumentStates={instruments} instrumentLabels={instrumentLabels} onHush={(newInstrumentState) => handleHush(newInstrumentState)}
-                                patterns={patterns} onPatternSelect={(num) => setCurrentPattern(num)} onLpfChange={(e) => setLpf(e.target.value)}
-                                onDelayChange={(e) => setDelay(e.target.value)} onRoomChange={(e) => setRoom(e.target.value)} />
                         </div>
                     </div>
                 </div>
