@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# Strudel Demo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+*Greetings Markers!*
 
-## Available Scripts
+For this project I have kept the website relatively simple in design.
 
-In the project directory, you can run:
+The layout is basically the same as the original project using rows and columns.
+The text preprocessing and editor areas are on the left side in their own rows within a column,
+with the play buttons, controls to change the song, or save and load a file on the right side.
+This seemed to be a good design to keep it looking clean and easy to navigate.
+Underneath these columns is a D3 graph ("Visualizer") that spans the width of the page.
 
-### `npm start`
+The entire website just uses bootstrap components and a bit of custom css.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**NOTE:** if you encounter any issues where the music isn't playing for some reason, usually
+stopping and playing again will fix the issue.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Features:
 
-### `npm test`
+### Play and Stop Buttons
+These buttons work as you would expect! And are styled with some basic custom css.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The Play button sends the text in the preprocessing area to get "processed",
+spitting out what is seen in the editor panel. This updates the CPM and volume (gain) in
+the editor code with any new settings, and creates or removes buttons in the Controls
+panel for each "instrument label" that exists in the song text.
 
-### `npm run build`
+Any updates made to the text preprocess area also instantly updates the set CPM and instrument
+buttons that are created in the "Instrument Switches" accordion panel.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Dark Mode
+This bootstrap switch toggles a dark mode setting which changes the background to a dark grey
+and text to white with some custom css. This doesn't affect the bootstrap cards, accordion or
+text areas. Located in the bootstrap accordion labelled "Settings".
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Song Select
+A dropdown list of a couple pre-made songs from the Strudel Bakery.
+Clicking on one will update both the preprocess and editor code textareas, as well as refresh any
+settings to volume or CPM. Located in the bootstrap accordion labelled "Settings".
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Save and Load (JSON)
+The Save button will download whatever is in the text preprocess area as a .json file,
+titled "strudelsong.json". This file contains the song text, CPM settings and instrument
+on/off settings. It should save directly to whatever you have set as your downloads folder.
 
-### `npm run eject`
+The Load button will bring up your file explorer, after selecting a .json file it will
+update all text with the loaded song code, update the CPM, generate pattern buttons for each
+"pattern" in the song text, and generate buttons for each "instrument" that's in the song
+(any text that describes a section of music followed by a colon, e.g. *"drums2:"* or *"melody:"*).
+It doesn't automatically play to allow you to adjust volume or settings first.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Located in the bootstrap accordion labelled "Settings".
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Visualizer
+A D3 graph that dynamically creates new bars based on gain output, wherever there's a 
+".log()" in the song text. Sometimes doesn't look so great when there's no variation in
+gain. Would have liked to work more on this and get it to display some cooler data.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Controls
 
-## Learn More
+### Master Volume Slider
+Changes the volume of all "instruments" or stacks as long as they have a *".gain(x)"*
+attached to them in the preprocess area. Does not affect postgain. I would recommend starting
+a song with this turned down. : - )
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Set CPM
+Buttons to increment or decrement the CPM by 1 and an input field for setting a custom
+CPM. This also shouldn't let you set it to 0 or a negative number.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Instrument Hush
+These are dynamically created for each song and are updated whenever a new "instrument label"
+is added or removed (e.g. "bassline:"). Clicking these turns the instruments on or off.
 
-### Code Splitting
+Instrument buttons should also configure appropriately to match any saved settings on file load, however
+it won't show up in the code editor until the code has been evaluated by hitting the Play button.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Pattern Selection
+Radio buttons to choose between the patterns defined in the song code with "patterns = ["x", "y"]".
+Updates "pattern" in the song code with the selected pattern number.
 
-### Analyzing the Bundle Size
+Only supports 1 type of pattern. For example in stranger_tune, the gain_patterns can be the only
+type. If another set of patterns were added (a different pattern for melody or similar) it causes some
+funky behaviour or just doesn't show up.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Effects
+Sliders to add effects to the song. Includes low-pass filter, delay and room (reverb). Setting the slider
+all the way to the left (at 0) will turn the effect off. These add something like *"all(x => x.effect())"*
+to the song code.
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### --Song Code Used--
+- "coastline" by eddyflux
+- Untitled ("Friendship") by Felix Roos
+- The supplied "stranger_tune" Algorave Dave remix

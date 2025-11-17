@@ -1,6 +1,6 @@
 
 // pipeline for processing song text with volume, cpm, instrument on/off buttons etc
-export function Preprocess({ inputText, volume, cpm, instruments }) {
+export function Preprocess({ inputText, volume, cpm, instruments, pattern, lpf, delay, room }) {
 
     // stop errors with no text to process
     if (inputText === "") {
@@ -37,6 +37,20 @@ export function Preprocess({ inputText, volume, cpm, instruments }) {
     if (instruments) {
         outputText = ProcessHush({ outputText, instruments });
     }
+    if (pattern !== null && pattern !== undefined) {
+        outputText = ProcessCurrentPattern({ outputText, pattern });
+    }
+
+    // sound effects
+    if (lpf > 0) {
+        outputText = outputText + (`\nall(x => x.lpf(${lpf}))`);
+    }
+    if (delay > 0) {
+        outputText = outputText + (`\nall(x => x.delay(${delay}))`);
+    }
+    if (room > 0) {
+        outputText = outputText + (`\nall(x => x.room(${room}))`)
+    }
 
     return outputText;
 }
@@ -68,17 +82,23 @@ function ProcessHush({ outputText, instruments }) {
     // iterate over each instrument to get their state (on/off)
     for (const [instrument, state] of Object.entries(instruments)) {
 
-        // set the state in the app
-        // NOTE: this is not ideal but I couldn't get the regex right to find the instrument
-        //       within a set string e.g. main_arp:, that includes a colon at the end,
-        //       so it does also affect the strudel instrument samples with the same name!
+        // set the state in the app (instrument names are all unique/dynamic unless named the same by the user)
         if (state) {
-            outputText = outputText.replaceAll(`_${instrument}` , instrument)
+            outputText = outputText.replaceAll(`_${instrument}:`, `${instrument}:`)
         }
         else {
-            outputText = outputText.replaceAll(instrument, `_${instrument}`);
+            outputText = outputText.replaceAll(`${instrument}:`, `_${instrument}:`);
         }
     }
+
+    return outputText;
+}
+
+
+function ProcessCurrentPattern({ outputText, pattern }) {
+
+    // replace currently playing pattern with new selected one
+    outputText = outputText.replace((/(const pattern = )\d+/), `const pattern = ${pattern}`);
 
     return outputText;
 }

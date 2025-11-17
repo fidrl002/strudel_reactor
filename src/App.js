@@ -18,7 +18,7 @@ import DarkModeSwitch from './components/DarkModeSwitch';
 import { Preprocess } from './utils/PreprocessLogic';
 import SaveLoadJson from './components/SaveLoadJson';
 import SongSelection from './components/SongSelection';
-import ExtractSongCPM from './utils/ExtractFromSong';
+import { ExtractSongCPM, ExtractInstrumentLabels, ExtractPatterns, ExtractCurrentPattern } from './utils/ExtractFromSong';
 
 let globalEditor = null;
 
@@ -27,9 +27,19 @@ export default function StrudelDemo() {
     const hasRun = useRef(false);
 
     // handle Play button
+    // processes the songText to update volume, cpm and instrument states
     const handlePlay = () => {
         try {
-            let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments });
+            let outputText = Preprocess({
+                inputText: songText,
+                volume: volume,
+                cpm: cpm,
+                instruments: instruments,
+                pattern: currentPattern,
+                lpf: lpf,
+                delay: delay,
+                room: room
+            });
             globalEditor.setCode(outputText);
             globalEditor.evaluate()
         }
@@ -40,7 +50,12 @@ export default function StrudelDemo() {
 
     // handle Stop button
     const handleStop = () => {
-        globalEditor.stop()
+        try {
+            globalEditor.stop()
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 
 
@@ -68,11 +83,16 @@ export default function StrudelDemo() {
         setSongText(song);
     }
 
-    // update the code and default CPM when text preprocessing area is changed
+    // update the songText code, CPM and instrumentLabels when text preprocessing area is changed
     useEffect(() => {
         if (globalEditor) {
             globalEditor.setCode(songText);
+
+            // extract the song code elements for Controls
             setCpm(ExtractSongCPM(songText));
+            setInstrumentLabels(ExtractInstrumentLabels(songText));
+            setPatterns(ExtractPatterns(songText));
+            setCurrentPattern(ExtractCurrentPattern(songText));
         }
     }, [songText]);
 
@@ -88,22 +108,45 @@ export default function StrudelDemo() {
         setCpm(cpm);
     }
 
-    const [instruments, setInstruments] = useState();
+    const [instrumentLabels, setInstrumentLabels] = useState(() => ExtractInstrumentLabels(songText));
+
+    const [instruments, setInstruments] = useState({});
+
+    // when Instrument Labels are changed, update Instruments with new setting
+    useEffect(() => {
+        if (!instrumentLabels.length) return;
+
+        setInstruments(prev => {
+            const updated = {};
+            instrumentLabels.forEach(label => {
+                updated[label] = prev[label] ?? true;
+            });
+            return updated;
+        });
+    }, [instrumentLabels]);
 
     const handleHush = (instruments) => {
         setInstruments(instruments);
     }
 
-    // process volume and cpm on change
+    const [patterns, setPatterns] = useState(() => ExtractPatterns(songText));
+
+    const [currentPattern, setCurrentPattern] = useState(() => ExtractCurrentPattern(songText));
+
+    // low-pass filter, delay and room effects
+    const [lpf, setLpf] = useState(); // default off
+    const [delay, setDelay] = useState(); // default off
+    const [room, setRoom] = useState(); // default off
+
+    // process volume, cpm and instruments on change
     useEffect(() => {
         if (state === "play") {
             handlePlay();
         }
-    }, [volume, cpm, instruments])
+    }, [volume, cpm, instruments, instrumentLabels, currentPattern, lpf, delay, room])
 
 
     // ---SAVE & LOAD JSON--- //
-
     // saves json file with songText, cpm and instrument settings
     const handleSave = () => {
         const saveData = JSON.stringify({ songText, cpm, instruments }, null, 2);
@@ -142,6 +185,19 @@ export default function StrudelDemo() {
                 if (data.songText !== undefined) setSongText(data.songText);
                 if (data.cpm !== undefined) setCpm(data.cpm);
                 if (data.instruments !== undefined) setInstruments(data.instruments);
+
+                let outputText = Preprocess({
+                    inputText: songText,
+                    volume: volume,
+                    cpm: cpm,
+                    instruments: instruments,
+                    pattern: currentPattern,
+                    lpf: lpf,
+                    delay: delay,
+                    room: room
+                });
+                globalEditor.setCode(outputText);
+
             }
             catch (e) {
                 console.error("Invalid JSON file!", e);
@@ -195,33 +251,54 @@ export default function StrudelDemo() {
 
 
     return (
-        <div className="m-4">
-            <h1 className="ms-2 mb-4 title-text" ><strong> &#9835;~&#9834; Strudel Demo &#9835;~&#9834; </strong></h1>
-            <main>
+        <div>
+            <div className="navbar">
+                <h1 className="mt-4 ms-5 title-text" ><strong> &#9835;~&#9834; Strudel Demo &#9835;~&#9834; </strong></h1>
+            </div>
+            <main className="m-5 mt-2">
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <TextProcessing value={songText} onChange={(e) => setSongText(e.target.value)} />
+                        <div className="col-7">
+                            <div className="row" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                                <TextProcessing value={songText} onChange={(e) => setSongText(e.target.value)} />
+                            </div>
+                            <div className="row" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                                <div id="editor" />
+                                <div id="output" />
+                            </div>
                         </div>
                         <div className="col">
-                            <div>
-                                <DarkModeSwitch />
+                            <div className="row">
+                                <div className="m-2">
+                                    <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
+                                </div>
+                                <div class="accordion m-2" id="accordionExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <h5>Settings</h5>
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div>
+                                                    <DarkModeSwitch />
+                                                </div>
+                                                <div>
+                                                    <SongSelection onSelect={handleSelect} />
+                                                    <SaveLoadJson onSave={handleSave} onLoad={handleLoad} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
-                                <SongSelection onSelect={handleSelect} />
-                                <SaveLoadJson onSave={handleSave} onLoad={handleLoad} />
+                            <div className="row">
+                                <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
+                                    instrumentStates={instruments} instrumentLabels={instrumentLabels} onHush={(newInstrumentState) => handleHush(newInstrumentState)}
+                                    patterns={patterns} onPatternSelect={(num) => setCurrentPattern(num)} onLpfChange={(e) => setLpf(e.target.value)}
+                                    onDelayChange={(e) => setDelay(e.target.value)} onRoomChange={(e) => setRoom(e.target.value)} />
                             </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <div id="editor" />
-                            <div id="output" />
-                        </div>
-                        <div className="col-md-4">
-                            <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
-                                onHush={(instruments) => handleHush(instruments)} />
                         </div>
                     </div>
                 </div>

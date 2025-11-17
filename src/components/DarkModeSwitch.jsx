@@ -21,7 +21,7 @@ function DarkModeSwitch() {
 
 
     return (
-        <div className="form-check form-switch fs-3 mb-3 mt-4">
+        <div className="form-check form-switch fs-4 mb-3">
             <label className="form-check-label" htmlFor="darkmode-switch">Dark Mode</label>
             <input className="form-check-input" type="checkbox" id="darkmode-switch" defaultChecked={darkMode} onClick={changeColour} />
         </div>
