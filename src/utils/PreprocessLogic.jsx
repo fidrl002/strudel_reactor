@@ -1,6 +1,6 @@
 
 // pipeline for processing song text with volume, cpm, instrument on/off buttons etc
-export function Preprocess({ inputText, volume, cpm, instruments, pattern }) {
+export function Preprocess({ inputText, volume, cpm, instruments, pattern, lpf, delay, room }) {
 
     // stop errors with no text to process
     if (inputText === "") {
@@ -39,6 +39,17 @@ export function Preprocess({ inputText, volume, cpm, instruments, pattern }) {
     }
     if (pattern !== null && pattern !== undefined) {
         outputText = ProcessCurrentPattern({ outputText, pattern });
+    }
+
+    // sound effects
+    if (lpf > 0) {
+        outputText = outputText + (`\nall(x => x.lpf(${lpf}))`);
+    }
+    if (delay > 0) {
+        outputText = outputText + (`\nall(x => x.delay(${delay}))`);
+    }
+    if (room > 0) {
+        outputText = outputText + (`\nall(x => x.room(${room}))`)
     }
 
     return outputText;

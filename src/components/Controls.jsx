@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // contains panel 4 - controls for changing music settings
-export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates, instrumentLabels, onHush, patterns, onPatternSelect }) {
+export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates, instrumentLabels, onHush, patterns, onPatternSelect, onLpfChange, onDelayChange, onRoomChange }) {
 
     // --CPM-- //
     const [newCpm, setNewCpm] = useState(inCpm);
@@ -153,6 +153,38 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates,
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div className="accordion-item">
+                    <h2 className="accordion-header">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour"
+                            aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                            <h5>Effects</h5>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseFour" className="accordion-collapse collapse">
+                        <div className="accordion-body">
+
+                            <p>Change how the music sounds (0 = off)</p>
+
+                            <div className="m-1 mb-4 fs-5 row">
+                                <label htmlFor="lpf" className="form-label">low-pass filter</label>
+                                <input type="range" className="form-range secondary" min="0" max="5000" defaultValue={5000} onMouseUp={onLpfChange} id="lpf" />
+                                <div className="col d-flex justify-content-start" style={{ fontSize: "15px" }} >muffled</div>
+                                <div className="col d-flex justify-content-end" style={{ fontSize: "15px" }} >bright</div>
+                            </div>
+
+                            <div className="m-1 mb-4 fs-5 row">
+                                <label htmlFor="delay" className="form-label">delay</label>
+                                <input type="range" className="form-range secondary" min="0" max="1" step=".1" defaultValue={0} onMouseUp={onDelayChange} id="delay" />
+                            </div>
+
+                            <div className="m-1 mb-4 fs-5 row">
+                                <label htmlFor="room" className="form-label">room (reverb)</label>
+                                <input type="range" className="form-range secondary" min="0" max="10" step="1" defaultValue={0} onMouseUp={onRoomChange} id="room" />
                             </div>
 
                         </div>

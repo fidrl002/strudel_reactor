@@ -30,7 +30,16 @@ export default function StrudelDemo() {
     // processes the songText to update volume, cpm and instrument states
     const handlePlay = () => {
         try {
-            let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments, pattern: currentPattern });
+            let outputText = Preprocess({
+                inputText: songText,
+                volume: volume,
+                cpm: cpm,
+                instruments: instruments,
+                pattern: currentPattern,
+                lpf: lpf,
+                delay: delay,
+                room: room
+            });
             globalEditor.setCode(outputText);
             globalEditor.evaluate()
         }
@@ -119,12 +128,17 @@ export default function StrudelDemo() {
 
     const [currentPattern, setCurrentPattern] = useState(() => ExtractCurrentPattern(songText));
 
+    // low-pass filter, delay and room effects
+    const [lpf, setLpf] = useState(); // default off
+    const [delay, setDelay] = useState(); // default off
+    const [room, setRoom] = useState(); // default off
+
     // process volume, cpm and instruments on change
     useEffect(() => {
         if (state === "play") {
             handlePlay();
         }
-    }, [volume, cpm, instruments, instrumentLabels, currentPattern])
+    }, [volume, cpm, instruments, instrumentLabels, currentPattern, lpf, delay, room])
 
 
     // ---SAVE & LOAD JSON--- //
@@ -167,7 +181,16 @@ export default function StrudelDemo() {
                 if (data.cpm !== undefined) setCpm(data.cpm);
                 if (data.instruments !== undefined) setInstruments(data.instruments);
 
-                let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments, pattern: currentPattern });
+                let outputText = Preprocess({
+                    inputText: songText,
+                    volume: volume,
+                    cpm: cpm,
+                    instruments: instruments,
+                    pattern: currentPattern,
+                    lpf: lpf,
+                    delay: delay,
+                    room: room
+                });
                 globalEditor.setCode(outputText);
 
             }
@@ -252,7 +275,8 @@ export default function StrudelDemo() {
                         <div className="col-md-4">
                             <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
                                 instrumentStates={instruments} instrumentLabels={instrumentLabels} onHush={(newInstrumentState) => handleHush(newInstrumentState)}
-                                patterns={patterns} onPatternSelect={(num) => setCurrentPattern(num)} />
+                                patterns={patterns} onPatternSelect={(num) => setCurrentPattern(num)} onLpfChange={(e) => setLpf(e.target.value)}
+                                onDelayChange={(e) => setDelay(e.target.value)} onRoomChange={(e) => setRoom(e.target.value)} />
                         </div>
                     </div>
                 </div>
