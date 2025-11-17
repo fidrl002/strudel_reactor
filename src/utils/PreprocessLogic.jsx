@@ -1,6 +1,6 @@
 
 // pipeline for processing song text with volume, cpm, instrument on/off buttons etc
-export function Preprocess({ inputText, volume, cpm, instruments }) {
+export function Preprocess({ inputText, volume, cpm, instruments, pattern }) {
 
     // stop errors with no text to process
     if (inputText === "") {
@@ -36,6 +36,9 @@ export function Preprocess({ inputText, volume, cpm, instruments }) {
     }
     if (instruments) {
         outputText = ProcessHush({ outputText, instruments });
+    }
+    if (pattern !== null && pattern !== undefined) {
+        outputText = ProcessCurrentPattern({ outputText, pattern });
     }
 
     return outputText;
@@ -76,6 +79,15 @@ function ProcessHush({ outputText, instruments }) {
             outputText = outputText.replaceAll(`${instrument}:`, `_${instrument}:`);
         }
     }
+
+    return outputText;
+}
+
+
+function ProcessCurrentPattern({ outputText, pattern }) {
+
+    // replace currently playing pattern with new selected one
+    outputText = outputText.replace((/(const pattern = )\d+/), `const pattern = ${pattern}`);
 
     return outputText;
 }

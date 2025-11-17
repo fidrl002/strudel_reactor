@@ -18,7 +18,7 @@ import DarkModeSwitch from './components/DarkModeSwitch';
 import { Preprocess } from './utils/PreprocessLogic';
 import SaveLoadJson from './components/SaveLoadJson';
 import SongSelection from './components/SongSelection';
-import { ExtractSongCPM, ExtractInstrumentLabels } from './utils/ExtractFromSong';
+import { ExtractSongCPM, ExtractInstrumentLabels, ExtractPatterns, ExtractCurrentPattern } from './utils/ExtractFromSong';
 
 let globalEditor = null;
 
@@ -30,7 +30,7 @@ export default function StrudelDemo() {
     // processes the songText to update volume, cpm and instrument states
     const handlePlay = () => {
         try {
-            let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments });
+            let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments, pattern: currentPattern });
             globalEditor.setCode(outputText);
             globalEditor.evaluate()
         }
@@ -73,9 +73,12 @@ export default function StrudelDemo() {
     useEffect(() => {
         if (globalEditor) {
             globalEditor.setCode(songText);
+
+            // extract the song code elements for Controls
             setCpm(ExtractSongCPM(songText));
             setInstrumentLabels(ExtractInstrumentLabels(songText));
-
+            setPatterns(ExtractPatterns(songText));
+            setCurrentPattern(ExtractCurrentPattern(songText));
         }
     }, [songText]);
 
@@ -95,6 +98,7 @@ export default function StrudelDemo() {
 
     const [instruments, setInstruments] = useState({});
 
+    // when Instrument Labels are changed, update Instruments with new setting
     useEffect(() => {
         if (!instrumentLabels.length) return;
 
@@ -111,12 +115,16 @@ export default function StrudelDemo() {
         setInstruments(instruments);
     }
 
+    const [patterns, setPatterns] = useState(() => ExtractPatterns(songText));
+
+    const [currentPattern, setCurrentPattern] = useState(() => ExtractCurrentPattern(songText));
+
     // process volume, cpm and instruments on change
     useEffect(() => {
         if (state === "play") {
             handlePlay();
         }
-    }, [volume, cpm, instruments, instrumentLabels])
+    }, [volume, cpm, instruments, instrumentLabels, currentPattern])
 
 
     // ---SAVE & LOAD JSON--- //
@@ -159,7 +167,7 @@ export default function StrudelDemo() {
                 if (data.cpm !== undefined) setCpm(data.cpm);
                 if (data.instruments !== undefined) setInstruments(data.instruments);
 
-                let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments });
+                let outputText = Preprocess({ inputText: songText, volume: volume, cpm: cpm, instruments: instruments, pattern: currentPattern });
                 globalEditor.setCode(outputText);
 
             }
@@ -243,7 +251,8 @@ export default function StrudelDemo() {
                         </div>
                         <div className="col-md-4">
                             <Controls volumeChange={volume} onVolumeChange={(e) => setVolume(e.target.value)} onCPMChange={handleCPMChange} inCpm={cpm}
-                                instrumentStates={instruments} instrumentLabels={instrumentLabels} onHush={(newInstrumentState) => handleHush(newInstrumentState)} />
+                                instrumentStates={instruments} instrumentLabels={instrumentLabels} onHush={(newInstrumentState) => handleHush(newInstrumentState)}
+                                patterns={patterns} onPatternSelect={(num) => setCurrentPattern(num)} />
                         </div>
                     </div>
                 </div>

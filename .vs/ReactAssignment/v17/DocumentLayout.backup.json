@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 218,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -32,23 +32,10 @@
               "RelativeDocumentMoniker": "src\\App.js",
               "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\App.js",
               "RelativeToolTip": "src\\App.js",
-              "ViewState": "AgIAAMsAAAAAAAAAAAAwwN4AAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAH0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-11-10T11:20:02.383Z",
               "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "README.md",
-              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\README.md",
-              "RelativeDocumentMoniker": "README.md",
-              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\README.md",
-              "RelativeToolTip": "README.md",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAAD0AAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-11-16T04:18:52.786Z",
               "EditorCaption": ""
             },
             {
@@ -59,9 +46,23 @@
               "RelativeDocumentMoniker": "src\\components\\Controls.jsx",
               "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\src\\components\\Controls.jsx",
               "RelativeToolTip": "src\\components\\Controls.jsx",
-              "ViewState": "AgIAABEAAAAAAAAAAAAQwDsAAABLAAAAAAAAAA==",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAAAIoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-11-14T00:15:58.441Z"
+              "WhenOpened": "2025-11-17T01:10:40.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "C:\\Users\\rache\\Documents\\GitHub\\strudel_reactor\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-11-16T04:18:52.786Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // contains panel 4 - controls for changing music settings
-export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates, instrumentLabels, onHush }) {
+export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates, instrumentLabels, onHush, patterns, onPatternSelect }) {
 
     // --CPM-- //
     const [newCpm, setNewCpm] = useState(inCpm);
@@ -80,7 +80,7 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates,
                     <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse">
                         <div className="accordion-body">
 
-                        <p>Set the cycle speed / change the tempo</p>
+                            <p>Set the cycle speed / change the tempo</p>
 
                             <div className="input-group mb-2">
                                 <span className="input-group-text" id="cpm-increment">Increment CPM</span>
@@ -90,7 +90,7 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates,
 
                             <div className="input-group">
                                 <span className="input-group-text" id="set-cpm">Set CPM</span>
-                                <input type="text" className="form-control" placeholder="Cycles per minute" value={newCpm}
+                                <input type="text" id="cpm" className="form-control" placeholder="Cycles per minute" value={newCpm}
                                     onChange={(e) => setNewCpm(e.target.value)} aria-label="Set-CPM" aria-describedby="set-cpm" />
                                 <button className="btn btn-primary" style={{ width: "70px" }} type="button" onClick={setCPM} >Set</button>
                             </div>
@@ -138,25 +138,21 @@ export function Controls({ onVolumeChange, onCPMChange, inCpm, instrumentStates,
                         <div className="accordion-body">
 
                             <p>Change the music pattern (if applicable)</p>
+
+                            {/* Create pattern buttons dynamically */}
                             <div className="fs-5 d-flex flex-wrap justify-content-start">
-                                <div className="mb-3 me-4 border rounded bg-light p-2">
-                                    <input type="radio" id="pattern0" name="pattern" className="me-2 ms-2" />
-                                    <label htmlFor="pattern0">
-                                        Pattern 0
-                                    </label>
-                                </div>
-                                <div className="mb-3 me-4 border rounded bg-light p-2">
-                                    <input type="radio" id="pattern1" name="pattern" className="me-2 ms-2" />
-                                    <label htmlFor="pattern1">
-                                        Pattern 1
-                                    </label>
-                                </div>
-                                <div className="mb-2 me-4 border rounded bg-light p-2">
-                                    <input type="radio" id="pattern2" name="pattern" className="me-2 ms-2" />
-                                    <label htmlFor="pattern2">
-                                        Pattern 2
-                                    </label>
-                                </div>
+
+                                {patterns.map((pattern, index) => (
+                                    <div key={pattern}>
+                                        <div className="mt-1 mb-1 me-3 border rounded bg-light p-2">
+
+                                            <input type="radio" id={`pattern${index}`} name="pattern" className="me-2 ms-2" onChange={() => onPatternSelect(index)} />
+                                            <label htmlFor={`pattern${index}`}>
+                                                Pattern {index}
+                                            </label>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
 
                         </div>
