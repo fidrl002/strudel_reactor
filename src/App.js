@@ -80,16 +80,19 @@ export default function StrudelDemo() {
     const [songText, setSongText] = useState(stranger_tune) // default
 
     const handleSelect = (song) => {
+        setCpm(ExtractSongCPM(song));
         setSongText(song);
     }
 
-    // update the songText code, CPM and instrumentLabels when text preprocessing area is changed
+    // update the songText code and instrumentLabels when text preprocessing area is changed
     useEffect(() => {
         if (globalEditor) {
             globalEditor.setCode(songText);
 
             // extract the song code elements for Controls
-            setCpm(ExtractSongCPM(songText));
+            if (state === "play") {
+                setCpm(ExtractSongCPM(songText)); // prevents issue with CPM not loading properly on file load
+            }
             setInstrumentLabels(ExtractInstrumentLabels(songText));
             setPatterns(ExtractPatterns(songText));
             setCurrentPattern(ExtractCurrentPattern(songText));
@@ -181,16 +184,16 @@ export default function StrudelDemo() {
             try {
                 const data = JSON.parse(e.target.result);
 
-                TextProcessing("");
+                setSongText(""); // clear songText first to prevent any issues
                 if (data.songText !== undefined) setSongText(data.songText);
                 if (data.cpm !== undefined) setCpm(data.cpm);
                 if (data.instruments !== undefined) setInstruments(data.instruments);
 
                 let outputText = Preprocess({
-                    inputText: songText,
+                    inputText: data.songText,
                     volume: volume,
-                    cpm: cpm,
-                    instruments: instruments,
+                    cpm: data.cpm,
+                    instruments: data.instruments,
                     pattern: currentPattern,
                     lpf: lpf,
                     delay: delay,
